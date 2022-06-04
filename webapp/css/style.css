@@ -1,0 +1,17 @@
+:root {
+    --color1: #f3edfb;
+    --color2: #8f53b3;
+}
+
+body {
+    background-image: url(../img/main_font4.png);
+}
+
+.navbar {
+    background: var(--color1);
+    background: -moz-linear-gradient(left,  var(--color1) 1%, var(--color2) 72%);
+    background: -webkit-linear-gradient(left,  var(--color1) 1%,var(--color2) 72%);
+    background: linear-gradient(to right,  var(--color1) 1%,var(--color2) 72%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=var(--color1), endColorstr=var(--color2),GradientType=1 );
+    
+}
