@@ -7,7 +7,7 @@ body {
     background-image: url(../img/main_font4.png);
 }
 
-.navbar {
+navbar {
     background: var(--color1);
     background: -moz-linear-gradient(left,  var(--color1) 1%, var(--color2) 72%);
     background: -webkit-linear-gradient(left,  var(--color1) 1%,var(--color2) 72%);
