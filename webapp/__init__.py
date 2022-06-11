@@ -1,26 +1,47 @@
+import logging
 from flask import Flask, redirect, render_template
 from flask_login import LoginManager
 from flask_migrate import Migrate
+
+from logging.handlers import RotatingFileHandler, SMTPHandler
+import os
+
+from flask_sqlalchemy import SQLAlchemy
 
 from webapp.db import db
 from webapp.admin.views import blueprint as admin_blueprint
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
 
+db = SQLAlchemy()
 
 def create_app():
 
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
-    db.init_app(app)
+    db = SQLAlchemy(app)
+    migrate = Migrate(app, db)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'user.login'
 
     app.register_blueprint(admin_blueprint)
-
     app.register_blueprint(user_blueprint)
+
+    if not app.debug:
+        if not os.path.exists('logs'):
+                os.mkdir('logs')
+        file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240, backupCount=10)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+        file_handler.setLevel(logging.INFO)
+
+        app.logger.addHandler(file_handler)
+
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('Microblog startup')
+
 
     @app.route("/")
     def index():
@@ -32,3 +53,6 @@ def create_app():
         return User.query.get(user_id)
 
     return app
+
+
+

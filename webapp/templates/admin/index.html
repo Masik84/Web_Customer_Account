@@ -1,3 +1,21 @@
 {% extends "base.html" %}
 
-{% block content %}Контент админки{% endblock %}
+{% block content %}Контент админки
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-outline-secondary">Пользователи</button>
+    <button type="button" class="btn btn-outline-secondary">Клиенты</button>
+    <button type="button" class="btn btn-outline-secondary">Менеджеры</button>
+    <button type="button" class="btn btn-outline-secondary">Продукты</button>
+  </div>
+
+
+<h4>Обновить данные в БД</h4>
+<div class="form-file">
+    <input type="file" class="form-file-input" id="customFile">
+    <label class="form-file-label" for="customFile">
+
+    </label>
+  </div>
+
+{% endblock %}

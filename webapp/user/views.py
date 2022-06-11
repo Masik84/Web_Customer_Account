@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user
 
+from datetime import datetime
+
 from webapp.db import db
 from webapp.user.forms import LoginForm, RegistrationForm
 from webapp.user.models import User
@@ -61,3 +63,10 @@ def process_reg():
                     error
                 ))
         return redirect(url_for('user.register'))
+
+
+@blueprint.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()

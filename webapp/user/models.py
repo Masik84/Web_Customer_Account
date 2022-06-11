@@ -1,14 +1,28 @@
+
+from datetime import datetime
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from webapp.db import db
+from webapp.db import Base, engine
 
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    password = db.Column(db.String(128))
-    role = db.Column(db.String(10), index=True)
-    email = db.Column(db.String(50))
+db = SQLAlchemy()
+
+class User(Base, db.Model, UserMixin):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    username = Column(String(64), index=True, unique=True)
+    password = Column(String(128))
+    role = Column(String(10), index=True)
+    email = Column(String(50))
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    #customer = relationship("Customers")
+
+    def __repr__(self):
+        return f'Company id: {self.id}, name: {self.name}'
+
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -20,5 +34,11 @@ class User(db.Model, UserMixin):
     def is_admin(self):
         return self.role == 'admin'
 
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+
+
+if __name__ == "__main__":
+    Base.metadata.create_all(bind=engine)
