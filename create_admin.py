@@ -2,7 +2,7 @@ from getpass import getpass
 import sys
 
 from webapp import create_app
-from webapp.db import db
+from webapp.db import db_session
 from webapp.user.models import User
 
 app = create_app()
@@ -23,6 +23,6 @@ with app.app_context():
     new_user = User(username=username, role='admin', email = admin_email)
     new_user.set_password(password)
 
-    db.session.add(new_user)
-    db.session.commit()
+    db_session.add(new_user)
+    db_session.commit()
     print('User with id {} added'.format(new_user.id))

@@ -4,14 +4,95 @@
 }
 
 body {
-    background-image: url(../img/main_font4.png);
+    /* background-image: url(../img/main_font4.png); */
+    background-color: #f8f8f2;
+    color: #44475a;
 }
 
 .bg-light {
-    background: var(--color1);
-    background: -moz-linear-gradient(left,  var(--color1) 1%, var(--color2) 72%);
-    background: -webkit-linear-gradient(left,  var(--color1) 1%,var(--color2) 72%);
-    background: linear-gradient(to right,  var(--color1) 1%,var(--color2) 72%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=var(--color1), endColorstr=var(--color2),GradientType=1 );
-    
+    background-color: #6272a4 !important;
 }
+
+.navbar-light .navbar-nav .nav-link.active {
+    color: rgb(255, 255, 255);
+}
+
+.navbar-light .navbar-nav .nav-link.active:hover {
+    color: rgb(196, 161, 249);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: rgb(255, 255, 255);
+}
+.navbar-light .navbar-nav .nav-link:hover {
+    color: rgb(196, 161, 249);
+}
+
+.form-control {
+    background-color: #6272a4;
+    border-radius: 5px;
+    border: 2px solid #6272a4;
+    padding-left: 10px;
+    color: #f8f8f2;
+
+}
+
+.form-control:focus {
+    border-color: #bd93f9 !important;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(98,114,164,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(98,114,164,.6);
+}
+
+.form-file-input {
+    float: left;
+    border-color: #bd93f9 !important;
+    border-radius: 5px;
+    background-color: #f8f8f2;
+    color: #44475a;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(98,114,164,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(98,114,164,.6);
+}
+
+/*  Кнопка выбора файла */
+::-webkit-file-upload-button {
+    height: 40px;
+    border: 2px solid #6272a4;
+    color: #f8f8f2; 
+    background-color: #6272a4;
+    border-radius: 5px;
+    -webkit-appearance: button;
+  }
+
+  ::-webkit-file-upload-button:hover {
+	background-color: #bd93f9;
+	border: 2px solid #7082b6;
+    color: #f8f8f2; 
+    border-radius: 5px;
+    -webkit-appearance: button;
+  }
+
+  /* Кнопки */
+.btn {
+	border: 2px solid #6272a4;
+	border-radius: 5px;
+	background-color: #6272a4;
+	color: #f8f8f2;
+}
+
+.btn:hover {
+	background-color: #bd93f9;
+	border: 2px solid #7082b6;
+}
+
+.btn:focus{ 
+	background-color: #ff79c6 !important;
+    box-shadow: 0 0 0 .2rem #bd93f9 !important;
+	border-style: solid; 
+	border-radius: 4px; 
+}
+
+.row {
+    height: 50px;
+}
+

@@ -8,18 +8,21 @@ import os
 
 from flask_sqlalchemy import SQLAlchemy
 
-from webapp.db import db
+from webapp.db import Base, engine
 from webapp.admin.views import blueprint as admin_blueprint
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
+from webapp.customer.views import blueprint as customer_blueprint
+from webapp.product.views import blueprint as product_blueprint
 
-db = SQLAlchemy()
 
 def create_app():
 
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     db = SQLAlchemy(app)
+    db.create_all()
+
     migrate = Migrate(app, db)
 
     login_manager = LoginManager()
@@ -28,19 +31,22 @@ def create_app():
 
     app.register_blueprint(admin_blueprint)
     app.register_blueprint(user_blueprint)
+    app.register_blueprint(customer_blueprint)
+    app.register_blueprint(product_blueprint)
 
-    if not app.debug:
-        if not os.path.exists('logs'):
-                os.mkdir('logs')
-        file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240, backupCount=10)
-        file_handler.setFormatter(logging.Formatter(
-            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-        file_handler.setLevel(logging.INFO)
 
-        app.logger.addHandler(file_handler)
+    # if not app.debug:
+    #     if not os.path.exists('logs'):
+    #             os.mkdir('logs')
+    #     file_handler = RotatingFileHandler('logs/mylog.log', maxBytes=10240, backupCount=10)
+    #     file_handler.setFormatter(logging.Formatter(
+    #         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    #     file_handler.setLevel(logging.INFO)
 
-        app.logger.setLevel(logging.INFO)
-        app.logger.info('Microblog startup')
+    #     app.logger.addHandler(file_handler)
+
+    #     app.logger.setLevel(logging.INFO)
+    #     app.logger.info('Microblog startup')
 
 
     @app.route("/")

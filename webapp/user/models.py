@@ -17,7 +17,7 @@ class User(Base, db.Model, UserMixin):
     password = Column(String(128))
     role = Column(String(10), index=True)
     email = Column(String(50))
-    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    last_seen = Column(db.DateTime, default=datetime.utcnow)
     #customer = relationship("Customers")
 
     def __repr__(self):

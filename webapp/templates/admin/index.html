@@ -1,21 +1,62 @@
 {% extends "base.html" %}
 
-{% block content %}Контент админки
+{% block content %}
 
-<div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-outline-secondary">Пользователи</button>
-    <button type="button" class="btn btn-outline-secondary">Клиенты</button>
-    <button type="button" class="btn btn-outline-secondary">Менеджеры</button>
-    <button type="button" class="btn btn-outline-secondary">Продукты</button>
-  </div>
+<div class="container">
+    <div class="row" blank_row>
+        <div class="col-12">
+            Контент админки
+        </div>
+    </div>
+
+    <div class="row" btn_row>
+        <div class="col-12">
+            <div class="btn-group" role="group" aria-label="custom_btn_group">
+                <button type="button" class="btn btn-outline-secondary">Пользователи</button>
+                <button type="button" class="btn btn-outline-secondary">Клиенты</button>
+                <button type="button" class="btn btn-outline-secondary">Менеджеры</button>
+                <button type="button" class="btn btn-outline-secondary">Продукты</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" blank_row></div>
+
+    <div class="row">
+        <div class="col-12">
+            <label for="form-file" class="form-label">Обновление Клиентов</label>
+            <div class="form-file">
+                <input type="file" class="form-file-input" id="customFile">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" blank_row></div>
+
+    <div class="row">
+        <div class="col-12">
+            <label for="form-file" class="form-label">Обновление Менеджеров</label>
+            <div class="form-file">
+                <input type="file" class="form-file-input" id="customFile">
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" blank_row></div>
+
+    <div class="row">
+        <div class="col-12">
+            <label for="form-file" class="form-label">Обновление Продуктов</label>
+            <div class="form-file">
+                <input type="file" class="form-file-input" id="customFile">
+              </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
-<h4>Обновить данные в БД</h4>
-<div class="form-file">
-    <input type="file" class="form-file-input" id="customFile">
-    <label class="form-file-label" for="customFile">
-
-    </label>
-  </div>
 
 {% endblock %}

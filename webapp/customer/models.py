@@ -1,10 +1,14 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from webapp.db import Base, engine
+import os
+import sys
+
+sys.path.append(os.path.join( os.dirname(__file__), '..' ) )
+import db
 
 #     company_id = Column(Integer, ForeignKey(Company.id), index=True, nullable=False)
-class LoB(Base):
+class LoB(db.Base):
     __tablename__ = 'LoB'
 
     id = Column(Integer, primary_key=True)
@@ -14,7 +18,7 @@ class LoB(Base):
         return f'LoB id: {self.id}, name: {self.LoB}'
 
 
-class PaymentTerms(Base):
+class PaymentTerms(db.Base):
     __tablename__ = 'PaymentTerms'
 
     id = Column(Integer, primary_key=True)
@@ -25,7 +29,7 @@ class PaymentTerms(Base):
         return f'PaymentTerms id: {self.id}, name: {self.PT_description}'
 
 
-class STLs(Base):
+class STLs(db.Base):
     __tablename__ = 'STLs'
 
     id = Column(Integer, primary_key=True)
@@ -36,7 +40,7 @@ class STLs(Base):
         return f'STL id: {self.id}, STL name: {self.STL}'
 
 
-class Managers(Base):
+class Managers(db.Base):
     __tablename__ = 'Managers'
     
     id = Column(Integer, primary_key=True)
@@ -52,7 +56,7 @@ class Managers(Base):
         return f'AM id: {self.id}, name: {self.AM_name}'
 
 
-class Customers(Base):
+class Customers(db.Base):
     __tablename__ = 'Customers'
 
     id = Column(Integer, primary_key=True)
@@ -78,18 +82,18 @@ class Customers(Base):
         return f'Company id: {self.id}, name: {self.SoldTo_Name}'
 
 
-class YFRP(Base):
-    __tablename__ = 'Shipto'
+class YFRP(db.Base):
+    __tablename__ = 'YFRP'
 
     id = Column(Integer, primary_key=True)
     YFRP = Column(Integer, index=True, unique=True, nullable=False)
     YFRP_Name = Column(String)
 
     def __repr__(self):
-        return f'ShipTo id: {self.id}, name: {self.ShipTo_Name}'
+        return f'YFRP id: {self.id}, name: {self.ShipTo_Name}'
 
 
-class ShipTos(Base):
+class ShipTos(db.Base):
     __tablename__ = 'Shipto'
 
     id = Column(Integer, primary_key=True)
@@ -102,7 +106,7 @@ class ShipTos(Base):
         return f'ShipTo id: {self.id}, name: {self.ShipTo_Name}'
 
 
-class Addresses(Base):
+class Addresses(db.Base):
     __tablename__ = 'Delivery_Addresses'
 
     id = Column(Integer, primary_key=True)
@@ -121,4 +125,4 @@ class Addresses(Base):
 
 
 if __name__ == "__main__":
-    Base.metadata.create_all(bind=engine)
+    db.Base.metadata.create_all(bind=db.engine)
