@@ -1,26 +1,40 @@
 import pandas as pd
-from faker import Faker
 
-fake = Faker('ru_RU')
 
-def fake_companies(num_rows=569):
-    companies = []
-    for _ in range(num_rows):
-        companies.append([fake.large_company()]
-        )
-    return companies
+data_file = '../DB_data.xlsx'
 
-def fake_addresses(num_rows=4642):
-    address = []
-    for _ in range(num_rows):
-        address.append([fake.ad()]
-        )
-    return address
+AM = pd.read_excel(data_file, sheet_name='AM_STL', usecols=['Sales_Grp',  'AM_name']).sort_values(by='AM_name')
 
-if __name__ == '__main__':
-    companies = fake_companies()
-    print(companies)
-    df = pd.DataFrame(companies)
-    writer = pd.ExcelWriter('test.xlsx', engine='xlsxwriter')
-    df.to_excel(writer, sheet_name='welcome', index=False)
-    writer.save()
+STL = pd.read_excel(data_file, sheet_name='AM_STL', usecols=['STL'])
+STL = STL.drop_duplicates(subset='STL').sort_values(by='STL')
+
+LoB = pd.read_excel(data_file, sheet_name='AM_STL', usecols=['LoB'])
+LoB = LoB.drop_duplicates(subset='LoB').sort_values(by='LoB')
+
+
+Addresses = pd.read_excel(data_file,sheet_name='Addresses')
+
+PaymentTerms = pd.read_excel(data_file,sheet_name='Cust_Data', usecols=['Pay_term', 'PT_description'])
+PaymentTerms = PaymentTerms.drop_duplicates().sort_values(by='Pay_term')
+
+YFRP = pd.read_excel(data_file,sheet_name='Cust_Data', usecols=['YFRP'])
+YFRP = YFRP.drop_duplicates().sort_values(by='YFRP')
+YFRP = YFRP[~YFRP['YFRP'].isnull()]
+
+
+# YFRP
+# Customers
+# ShipTos
+# Addresses
+
+print(LoB)
+
+
+Prod_Sub_Class = pd.read_excel(data_file, sheet_name='Product_Data', usecols=['Sub_Class', 'Sub_Class_Name'])
+Prod_Sub_Class = Prod_Sub_Class.drop_duplicates().sort_values(by='Sub_Class')
+
+Sal_Prod = pd.read_excel(data_file, sheet_name='Product_Data', usecols=['Sal_Prod_Code', 'Sal_Prod_Name'])
+Sal_Prod = Sal_Prod.drop_duplicates().sort_values(by='Sal_Prod_Name')
+
+Prod_Status = pd.read_excel(data_file, sheet_name='Product_Data', usecols=['Status_code', 'Status_descr'])
+Prod_Status = Prod_Status.drop_duplicates().sort_values(by='Status_code')

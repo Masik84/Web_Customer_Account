@@ -4,11 +4,8 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 
 from logging.handlers import RotatingFileHandler, SMTPHandler
-import os
 
-from flask_sqlalchemy import SQLAlchemy
-
-from webapp.db import Base, engine
+from webapp.db import db
 from webapp.admin.views import blueprint as admin_blueprint
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
@@ -20,9 +17,8 @@ def create_app():
 
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
-    db = SQLAlchemy(app)
-    db.create_all()
-
+    db.init_app(app)
+    
     migrate = Migrate(app, db)
 
     login_manager = LoginManager()

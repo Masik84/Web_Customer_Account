@@ -6,11 +6,10 @@ from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from webapp.db import Base, engine
+from webapp.db import db
 
-db = SQLAlchemy()
 
-class User(Base, db.Model, UserMixin):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(String(64), index=True, unique=True)
@@ -37,8 +36,3 @@ class User(Base, db.Model, UserMixin):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
-
-
-
-if __name__ == "__main__":
-    Base.metadata.create_all(bind=engine)

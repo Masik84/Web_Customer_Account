@@ -26,7 +26,8 @@
         <div class="col-12">
             <label for="form-file" class="form-label">Обновление Клиентов</label>
             <div class="form-file">
-                <input type="file" class="form-file-input" id="customFile">
+                <input type="file" class="form-file-input" id="customFile" 
+                buttonAfter={uploadFileButton} ref={(ref) => this.fileUpload = ref}>
             </div>
         </div>
     </div>
@@ -36,10 +37,10 @@
     <div class="row">
         <div class="col-12">
             <label for="form-file" class="form-label">Обновление Менеджеров</label>
-            <div class="form-file">
-                <input type="file" class="form-file-input" id="customFile">
-              </div>
-            </div>
+            <form method=post enctype=multipart/form-data>
+                <input type=file name=file>
+                <input class="btn" type=submit value=Отправить>
+            </form>
         </div>
     </div>
 

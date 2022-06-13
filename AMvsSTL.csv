@@ -1,0 +1,53 @@
+﻿Sales_Grp;AM_name;SO_code;STL;LoB
+HZC;Dmitry Lobyntsev;A076;Shapkin Maksim;B2B Indirect
+TAI;Dmitry Lobyntsev;A078;Shapkin Maksim;B2C Indirect
+HZB;Dmitry Dmitriev;A076;Filippov Dmitry;B2B Indirect
+DCS;Alexander Lugbin;A076;Vostrikov Denis;B2B Indirect
+U01;Alexander Lugbin;A078;Vostrikov Denis;B2C Indirect
+GOS;Andrey Nadyozhkin;A076;Filippov Dmitry;B2B Indirect
+GQG;Andrey Nadyozhkin;A078;Filippov Dmitry;B2C Indirect
+N71;Artem Neborachek;A076;Kubrina Natalya;B2B Indirect
+GQV;Svetlana Vlasovskikh;A078;Kubrina Natalya;B2C Indirect
+DDY;Timur Ubaidullaev;A076;Kubrina Natalya;B2B Indirect
+TAH;Artem Petrenko;A078;Vostrikov Denis;B2C Indirect
+HMQ;Artem Petrenko;A076;Vostrikov Denis;B2B Indirect
+GQF;Dmitry Zhidkikh;A078;Vostrikov Denis;B2C Indirect
+HZD;Oleg Khakimov;A076;Shapkin Maksim;B2B Indirect
+GPQ;Sergey Ignatov;A076;Vostrikov Denis;B2B Indirect
+GOU;Igor Schukin;A076;Shapkin Maksim;B2B Indirect
+N72;Naran Koldaev;A076;Vostrikov Denis;B2B Indirect
+LCB;Eugeniy Zyryanov;A078;Shapkin Maksim;B2C Indirect
+O27;Maxim Matveev;A078;Shapkin Maksim;B2C Indirect
+I99;Sergey Popov;A078;Vostrikov Denis;B2C Indirect
+GPT;Alexander Zherebin;A078;Filippov Dmitry;B2C Indirect
+XAN;Alexander Zherebin;A076;Filippov Dmitry;B2B Indirect
+GOX;Anatoly Frolov;A076;Filippov Dmitry;B2B Indirect
+HZF;Anatoly Frolov;A078;Filippov Dmitry;B2C Indirect
+GPZ;Maxim Izotov;A078;Filippov Dmitry;B2C Indirect
+RU4;Marina Romasheva;A076;Filippov Dmitry;B2B Indirect
+MAR;Marina Romasheva;A078;Filippov Dmitry;B2C Indirect
+N92;Marina Romasheva;A077;Filippov Dmitry;B2C Indirect
+DDC;Ksenia Gavrilenko;A077;Rybkov Ilya;B2C Direct
+HNQ;Renat Ganeev;A077;Rybkov Ilya;B2C Direct
+GOO;Zlata Popova;A075;Rybkov Ilya;B2C Direct
+TAF;Elena Nazarova;A077;Rybkov Ilya;B2C Direct
+RU3;Vyacheslav Aleksandrov;A077;Rybkov Ilya;B2C Direct
+GOP;Vadim Shevchenko;A075;Mardanov Dmitri;B2B Direct
+HZM;Nikolay Timofeev;A075;Mardanov Dmitri;B2B Direct
+O95;Dmitry Volkov;A075;Mardanov Dmitri;B2B Direct
+DBW;Dmitry Volkov;A076;Mardanov Dmitri;B2B Direct
+T64;Konstantin Afonkin;A075;Mardanov Dmitri;B2B Direct
+O58;Mikhail Kaluzhskikh;A075;Rodionov Pavel;GKA
+HZG;Irina Voskoboynikova;A075;Rodionov Pavel;GKA
+GOQ;Vladimir Semenov;A075;Rodionov Pavel;GKA
+M81;Vitaly Kolupaev;A077;Rodionov Pavel;GKA
+M84;Maxim Izotov;A077;Filippov Dmitry;B2C Direct
+M86;Sergey Popov;A077;Vostrikov Denis;B2C Direct
+M85;Eugeniy Zyryanov;A077;Shapkin Maksim;B2C Direct
+HNS;Sergey Popov;A077;Vostrikov Denis;B2C Direct
+M82;Maxim Matveev;A077;Shapkin Maksim;B2C Direct
+P40;Alena Ostrovskaya;A159;Shestiperov Alexey;MD UCAS
+UCD;Andrey Rogov;A159;Shestiperov Alexey;MD UCAS
+P41;Alexey Zelepoukhin;A159;Shestiperov Alexey;MD UCAS
+HNY;Alexey Makhotin;A159;Shestiperov Alexey;MD UCAS
+OEM;Mansoor Naqvi;A159;Shestiperov Alexey;MD UCAS
