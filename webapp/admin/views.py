@@ -12,3 +12,8 @@ def admin_index():
     title = 'Панель управления'
     return render_template('admin/index.html', page_title=title)
 
+
+@blueprint.route('/products')
+def group_btn_clcked():
+    if request.method == 'POST'
+    return render_template('admin.products.html')

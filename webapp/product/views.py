@@ -5,3 +5,5 @@ from webapp.db import db
 from webapp.product.models import Materials, SalProducts, ProdFamily, ProdSubClass, MaterialStatus, BOs
 
 blueprint = Blueprint('products', __name__, url_prefix='/products')
+
+
