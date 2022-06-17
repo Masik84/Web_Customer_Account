@@ -5,17 +5,17 @@
 <div class="container">
     <div class="row" blank_row>
         <div class="col-12">
-            Контент админки
+            Admin Panel
         </div>
     </div>
 
     <div class="row" btn_row>
         <div class="col-12">
             <div class="btn-group" role="group" aria-label="custom_btn_group">
-                <button type="button" class="btn btn-outline-secondary" id="btn_users">Пользователи</button>
-                <button type="button" class="btn btn-outline-secondary" id="btn_customers">Клиенты</button>
-                <button type="button" class="btn btn-outline-secondary" id="btn_managers">Менеджеры</button>
-                <button type="button" class="btn btn-outline-secondary" id="btn_products">Продукты</button>
+                <a href="{{ url_for('admin.users_page') }}" class="btn btn-outline-secondary">Users</a>
+                <a href="{{ url_for('admin.customers_page') }}" class="btn btn-outline-secondary">Customers</a>
+                <a href="{{ url_for('admin.managers_page') }}" class="btn btn-outline-secondary">Managers</a>
+                <a href="{{ url_for('admin.products_page') }}" class="btn btn-outline-secondary">Products</a>
             </div>
         </div>
     </div>
@@ -24,22 +24,10 @@
 
     <div class="row">
         <div class="col-12">
-            <label for="form-file" class="form-label">Обновление Клиентов</label>
-            <div class="form-file">
-                <input type="file" class="form-file-input" id="customFile" 
-                buttonAfter={uploadFileButton} ref={(ref) => this.fileUpload = ref}>
-            </div>
-        </div>
-    </div>
-
-    <div class="row" blank_row></div>
-
-    <div class="row">
-        <div class="col-12">
-            <label for="form-file" class="form-label">Обновление Менеджеров</label>
+            <label for="form-file" class="form-label" id="cust_update_lable">Customer update</label>
             <form method=post enctype=multipart/form-data>
                 <input type=file name=file>
-                <input class="btn" type=submit value=Отправить>
+                <input class="btn" type=submit value=Submit>
             </form>
         </div>
     </div>
@@ -48,11 +36,23 @@
 
     <div class="row">
         <div class="col-12">
-            <label for="form-file" class="form-label">Обновление Продуктов</label>
-            <div class="form-file">
-                <input type="file" class="form-file-input" id="customFile">
-              </div>
-            </div>
+            <label for="form-file" class="form-label" id="am_update_lable">Managers update</label>
+            <form method=post enctype=multipart/form-data>
+                <input type=file name=file>
+                <input class="btn" type=submit value=Submit>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" blank_row></div>
+
+    <div class="row">
+        <div class="col-12">
+            <label for="form-file" class="form-label" id="prod_update_lable">Products update</label>
+            <form method=post enctype=multipart/form-data>
+                <input type=file name=file>
+                <input class="btn" type=submit value=Submit>
+            </form>
         </div>
     </div>
 

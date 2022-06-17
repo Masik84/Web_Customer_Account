@@ -95,3 +95,9 @@ body {
 .row {
     height: 50px;
 }
+
+#cust_update_lable, #am_update_lable, #prod_update_lable {
+    font: 16px solid !important;
+    color: #6272a4;
+    text-decoration: underline;
+}
