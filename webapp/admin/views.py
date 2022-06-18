@@ -40,7 +40,6 @@ def single_user(user_id):
 @blueprint.route('/user_update/<int:user_id>', methods=['POST'])
 def user_update(user_id):
     form = UserDataForm()
-    print(form.validate_on_submit())
 
     #if form.validate_on_submit():
     user_to_update = User.query.filter(User.id == user_id).first()
@@ -57,7 +56,7 @@ def user_update(user_id):
         return redirect(url_for('admin.users_page'))
 
     elif request.form['delete']:
-        user_to_delete = User.query.filter(User.id == user_id)
+        user_to_delete = User.query.filter(User.id == user_id).first()
         db.session.delete(user_to_delete)
         db.session.commit()
         return redirect(url_for('admin.users_page'))
