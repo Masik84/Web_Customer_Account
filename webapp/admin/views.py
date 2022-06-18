@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, send_from_directory, url_for
 from werkzeug.utils import secure_filename
 
 #from webapp.config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
@@ -98,8 +98,8 @@ def products_page():
 
 ################################################################################
 path = os.getcwd()
-UPLOAD_FOLDER = os.path.join(path, 'test_data')
-ALLOWED_EXTENSIONS = set(['xls', 'xlsx'])
+UPLOAD_FOLDER = 'test_data'
+ALLOWED_EXTENSIONS = {'xls', 'xlsx'}
 
 
 def allowed_file(filename):
@@ -109,19 +109,22 @@ def allowed_file(filename):
 @blueprint.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-       if 'file' not in request.files:
-           print('No file attached in request')
-           return redirect(request.url)
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            return redirect(url_for('uploaded_file', filename=filename))
+    return redirect(url_for('admin.admin_index'))
 
-       file = request.files['file']
-       if file.filename == '':
-           print('No file selected')
-           return redirect(request.url)
-
-       if file and allowed_file(file.filename):
-           filename = secure_filename(file.filename)
-           file.save(os.path.join(UPLOAD_FOLDER, filename))
-           flash('File successfully uploaded')
-
-           return redirect(url_for('admin_index', filename=filename))
-    return redirect(url_for('admin_index'))
+@blueprint.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
