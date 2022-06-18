@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if current_user.role == "admin" %}
+
+<h1>Admin Customer page</h1>
+<br>
+<a href="{{ url_for('admin.admin_index') }}" class="btn">Back</a>
+<br>
+
+{% else %}
+
+<h1>User Customer page</h1>
+<br>
+<a href="/" class="btn">Back</a>
+<br>
+
+{% endif%}
+
+<br>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+          <th scope="col">Sold-To</th>
+          <th scope="col">Sold-To Name</th>
+          <th scope="col">AM Name</th>
+          <th scope="col">STL Name</th>
+          <th scope="col">Tax code 1 (INN)</th>
+          <th scope="col">Tax code 2 (KPP)</th>
+          <th scope="col">Pay Term</th>
+          <th scope="col">Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cust in cust_data %}
+        <tr>
+          <td> <a>{{ cust.SoldTo }}</a></td>
+          <td>{{ cust.SoldTo_Name }}</td>
+          <td>{{ cust.AM}}</td>
+          <td>{{ cust.STL }}</td>
+          <td>{{ cust.INN }}</td>
+          <td>{{ cust.KPP }}</td>
+          <td>{{ cust.Payment_term }}</td>
+          <td>{{ cust.Addr }}</td>
+        </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}

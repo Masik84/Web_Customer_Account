@@ -13,7 +13,7 @@ class LoB(db.Model):
     LoB = Column(String, index=True, unique=True)
 
     def __repr__(self):
-        return f'LoB id: {self.id}, name: {self.LoB}'
+        return self.LoB
 
 
 class PaymentTerms(db.Model):
@@ -24,7 +24,7 @@ class PaymentTerms(db.Model):
     PT_description = Column(String)
 
     def __repr__(self):
-        return f'PaymentTerms id: {self.id}, name: {self.PT_description}'
+        return self.PT_description
 
 
 class STLs(db.Model):
@@ -34,7 +34,7 @@ class STLs(db.Model):
     STL = Column(String, index=True, unique=True)
 
     def __repr__(self):
-        return f'STL id: {self.id}, STL name: {self.STL}'
+        return self.STL
 
 
 class Managers(db.Model):
@@ -51,7 +51,7 @@ class Managers(db.Model):
     LoB = relationship('LoB')
 
     def __repr__(self):
-        return f'AM id: {self.id}, name: {self.AM_name}'
+        return self.AM_name
 
 
 class Addresses(db.Model):
@@ -66,7 +66,7 @@ class Addresses(db.Model):
     House = Column(String)
 
     def __repr__(self):
-        return f'Address id: {self.id}, address: {self.Postal_Code}, {self.Region}, {self.City}, {self.Street}, {self.House}'
+        return f"{self.Postal_Code}, {self.Region}, {self.City}, {self.Street}, {self.House}"
 
 
 class YFRP(db.Model):
@@ -87,13 +87,18 @@ class Customers(db.Model):
     id = Column(Integer, primary_key=True)
     SoldTo = Column(Integer, index=True, unique=True, nullable=False)
     SoldTo_Name = Column(String)
-    INN = Column(Integer, nullable=False)
-    KPP = Column(Integer)
+    INN = Column(String, nullable=False)
+    KPP = Column(String)
+    AM_id = Column(Integer, ForeignKey(Managers.id), index=True, nullable=False)
+    STL_id = Column(Integer, ForeignKey(STLs.id), index=True, nullable=False)
     Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True, nullable=False)
     PayTerm_id = Column(Integer, ForeignKey(PaymentTerms.id), index=True, nullable=False)
 
+    AM = relationship('Managers')
+    STL = relationship('STLs')
     Addr = relationship('Addresses')
     Payment_term = relationship("PaymentTerms")
+
 
 
     def __repr__(self):

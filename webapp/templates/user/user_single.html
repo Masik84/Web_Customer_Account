@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if current_user.role == "admin" %}
+
+<h1>Admin Customer page</h1>
+<br>
+<a href="{{ url_for('admin.admin_index') }}" class="btn">Back</a>
+<br>
+
+{% else %}
+
+<h1>User Customer page</h1>
+<br>
+<a href="/" class="btn">Back</a>
+<br>
+
+{% endif%}
+
+<br>
+
+    <div class="row">
+        <div class="col-4">
+            <form action="{{action_link}}" method="post">
+            {% include('messages.html') %}
+
+                <div class="form-group">
+                    {{ form.username.label }}<br>
+                    {{ form.username(value=user.username) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.userrole.label }}<br>
+                    {{ form.userrole(value=user.role) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.useremail.label }}<br>
+                    {{ form.useremail(value=user.email) }}
+                </div>
+
+                <br>
+                {{ form.update }}
+                {{ form.delete }}
+                <br>
+            </form>
+        </div>
+        <div class="col-8">
+            
+        </div>
+    </div>
+
+{% endblock %}

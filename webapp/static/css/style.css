@@ -101,3 +101,19 @@ body {
     color: #6272a4;
     text-decoration: underline;
 }
+
+.table-bordered {
+    border: 1px solid !important;
+    border-color: #6272a4 !important;
+}
+
+.table-bordered thead th,
+.table-bordered thead td {
+  border-bottom-width: 2px !important;
+  border-color: #6272a4 !important;
+}
+
+.table td,
+.table th {
+  border-color: #6272a4 !important;
+}

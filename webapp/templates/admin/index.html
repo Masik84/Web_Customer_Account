@@ -14,6 +14,7 @@
             <div class="btn-group" role="group" aria-label="custom_btn_group">
                 <a href="{{ url_for('admin.users_page') }}" class="btn btn-outline-secondary">Users</a>
                 <a href="{{ url_for('admin.customers_page') }}" class="btn btn-outline-secondary">Customers</a>
+                <a href="{{ url_for('admin.deladdress_page') }}" class="btn btn-outline-secondary">Delivery Addresses</a>
                 <a href="{{ url_for('admin.managers_page') }}" class="btn btn-outline-secondary">Managers</a>
                 <a href="{{ url_for('admin.products_page') }}" class="btn btn-outline-secondary">Products</a>
             </div>
@@ -34,27 +35,6 @@
 
     <div class="row" blank_row></div>
 
-    <div class="row">
-        <div class="col-12">
-            <label for="form-file" class="form-label" id="am_update_lable">Managers update</label>
-            <form method=post enctype=multipart/form-data>
-                <input type=file name=file>
-                <input class="btn" type=submit value=Submit>
-            </form>
-        </div>
-    </div>
-
-    <div class="row" blank_row></div>
-
-    <div class="row">
-        <div class="col-12">
-            <label for="form-file" class="form-label" id="prod_update_lable">Products update</label>
-            <form method=post enctype=multipart/form-data>
-                <input type=file name=file>
-                <input class="btn" type=submit value=Submit>
-            </form>
-        </div>
-    </div>
 
 </div>
 

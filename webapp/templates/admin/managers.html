@@ -5,5 +5,27 @@
 <h1>Admin Managers page</h1>
 <br>
 <a href="{{ url_for('admin.admin_index') }}" class="btn">Back</a>
+<br>
+<br>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+          <th scope="col">AM code</th>
+          <th scope="col">AM name</th>
+          <th scope="col">STL</th>
+          <th scope="col">LoB</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for am in am_data %}
+        <tr>
+          <td> <a>{{ am.Sales_Grp }}</a></td>
+          <td>{{ am.AM_name }}</td>
+          <td>{{ am.STL}}</td>
+          <td>{{ am.LoB }}</td>
+        </tr>
+        {% endfor %}
+</table>
 
 {% endblock %}

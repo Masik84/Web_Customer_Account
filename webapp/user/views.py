@@ -35,7 +35,7 @@ def process_login():
 @blueprint.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('main_win.index'))
+    return redirect(url_for('index'))
 
 @blueprint.route('/register')
 def register():
