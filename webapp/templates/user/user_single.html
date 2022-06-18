@@ -25,6 +25,10 @@
             <form action="{{action_link}}" method="post">
             {% include('messages.html') %}
 
+                <div class="form-group" hidden>
+                    {{ form.user_id(value=user.id) }}
+                </div>
+
                 <div class="form-group">
                     {{ form.username.label }}<br>
                     {{ form.username(value=user.username) }}

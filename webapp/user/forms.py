@@ -34,5 +34,5 @@ class UserDataForm(FlaskForm):
     username = StringField("User Name", validators=[DataRequired()], render_kw={"class": "form-control"})
     userrole = StringField("User Role", validators=[DataRequired()], render_kw={"class": "form-control"})
     useremail = StringField("User Email", validators=[DataRequired()], render_kw={"class": "form-control"})
-    update = SubmitField('Update', render_kw={"class": "btn"})
+    update = SubmitField('Update', render_kw={"class": "btn btn-primary"})
     delete = SubmitField('Delete', render_kw={"class": "btn"})

@@ -34,34 +34,42 @@ def single_user(user_id):
     this_user = User.query.filter(User.id == user_id).first()
     if not this_user:
         abort(404)
-    return render_template("user/user_single.html", user=this_user, form=form, action_link=f"/admin/user_update/{user_id}" )
+    return render_template("user/user_single.html", user=this_user, form=form, action_link=f"/user_update/{user_id}" )
 
 
 @blueprint.route('/user_update/<int:user_id>', methods=['POST'])
 def user_update(user_id):
     form = UserDataForm()
-    if form.update.validate_on_submit():
-        user_to_update = User.query.filter(User.id == user_id).first()
+    print(form.validate_on_submit())
 
-        if request.form['update'] :
-            user_to_update.id = request.form["user_id"]
-            user_to_update.username = request.form["username"]
-            user_to_update.role = request.form["userrole"]
-            user_to_update.email = request.form["useremail"]
-            print(user_to_update)
+    #if form.validate_on_submit():
+    user_to_update = User.query.filter(User.id == user_id).first()
 
-            db.session.commit()
+    if request.form['update']:
+        user_to_update.id = request.form["user_id"]
+        user_to_update.username = request.form["username"]
+        user_to_update.role = request.form["userrole"]
+        user_to_update.email = request.form["useremail"]
 
-            flash('User updated successfully')
-            return redirect(url_for('admin.users_page'))
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    flash('Error in field "{}": - {}'.format(
-                        getattr(form, field).label.text, 
-                        error
-                    ))
-    return redirect(url_for('admin.users_page'))
+        db.session.commit()
+
+        flash('User updated successfully')
+        return redirect(url_for('admin.users_page'))
+
+    elif request.form['delete']:
+        user_to_delete = User.query.filter(User.id == user_id)
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        return redirect(url_for('admin.users_page'))
+
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash('Error in field "{}": - {}'.format(
+                    getattr(form, field).label.text, 
+                    error
+                ))
+    return redirect(url_for('admin.admin_index'))
 
 
 ################################################################################
