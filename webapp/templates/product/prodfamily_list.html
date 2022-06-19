@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1>Product Family page</h1>
+<br>
+<a href="{{ url_for('admin.products_page') }}" class="btn">Back</a>
+<br>
+
+<br>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">Family Name</th>
+          <th scope="col">Sub Class Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {% for family in family_data %}
+        <tr>
+          <td> <a>{{ family.Family_Code }}</a></td>
+          <td>{{ family.Family_Name }}</td>
+          <td>{{ family.Sub_Class}}</td>
+
+        </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}

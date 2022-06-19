@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1>Material page</h1>
+<br>
+<a href="{{ url_for('admin.products_page') }}" class="btn">Back</a>
+<br>
+
+
+<br>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">Material Name</th>
+          <th scope="col">Sal Prod Name</th>
+          <th scope="col">Family Name</th>
+          <th scope="col">Sub Class Name</th>
+          <th scope="col">LoB</th>
+          <th scope="col">Density</th>
+          <th scope="col">Net Weight</th>
+          <th scope="col">ED type</th>
+          <th scope="col">Pack type</th>
+          <th scope="col">BO type</th>
+          <th scope="col">Pack Vol</th>
+          <th scope="col">UoM</th>
+          <th scope="col">Plant</th>
+          <th scope="col">Producer</th>
+          <th scope="col">Status</th>
+          <th scope="col">BO Location</th>
+          <th scope="col">Production</th>
+          <th scope="col">Comment</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for material in material_data %}
+        <tr>
+          <td> <a>{{ material.Material_code }}</a></td>
+          <td>{{ material.Material_Name }}</td>
+          <td>{{ material.Sal_Prod_Code}}</td>
+          <td>{{ material.Family_Code }}</td>
+          <td>{{ material.Sub_Class }}</td>
+          <td>{{ material.LoB }}</td>
+          <td>{{ material.Density }}</td>
+          <td>{{ material.Net_Weight }}</td>
+          <td>{{ material.ED_type }}</td>
+          <td>{{ material.Pack_type }}</td>
+          <td>{{ material.BO_type }}</td>
+          <td>{{ material.Pack_Vol }}</td>
+          <td>{{ material.UoM }}</td>
+          <td>{{ material.Plant }}</td>
+          <td>{{ material.Producer }}</td>
+          <td>{{ material.Status_code }}</td>
+          <td>{{ material.BO_Location }}</td>
+          <td>{{ material.Production }}</td>
+          <td>{{ material.Comment }}</td>
+        </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}

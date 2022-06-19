@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1>Product Sub Class page</h1>
+<br>
+<a href="{{ url_for('admin.products_page') }}" class="btn">Back</a>
+<br>
+
+
+<br>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">Sub Class Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for subclass in subclass_data %}
+        <tr>
+          <td> <a>{{ subclass.Sub_Class }}</a></td>
+          <td>{{ subclass.Sub_Class_Name }}</td>
+        </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}

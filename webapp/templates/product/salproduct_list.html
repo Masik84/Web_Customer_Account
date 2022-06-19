@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1>Saleable Product page</h1>
+<br>
+<a href="{{ url_for('admin.products_page') }}" class="btn">Back</a>
+<br>
+
+<br>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">Sal Prod Name</th>
+          <th scope="col">Family Name</th>
+          <th scope="col">Sub Class Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sal_prod in sal_prod_data %}
+        <tr>
+          <td> <a>{{ sal_prod.Sal_Prod_Code }}</a></td>
+          <td>{{ sal_prod.Sal_Prod_Name }}</td>
+          <td>{{ sal_prod.Family_Code}}</td>
+          <td>{{ sal_prod.Sub_Class }}</td>
+        </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}
