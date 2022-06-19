@@ -34,11 +34,18 @@
                     {{ form.username(value=user.username) }}
                 </div>
 
+                {% if current_user.role == "admin" %}
                 <div class="form-group">
                     {{ form.userrole.label }}<br>
                     {{ form.userrole(value=user.role) }}
                 </div>
-
+                {% else %}
+                <div class="form-group" hidden>
+                    {{ form.userrole.label }}<br>
+                    {{ form.userrole(value=user.role) }}
+                </div>
+                {% endif %}
+                
                 <div class="form-group">
                     {{ form.useremail.label }}<br>
                     {{ form.useremail(value=user.email) }}

@@ -18,7 +18,16 @@
 
     <div class="row">
         <div class="col-4">
-            <form action="{{ url_for('user.process_reg') }}" method="post">
+
+            <!--
+            {% if current_user.role == "admin" %}
+            <form action="{{ url_for('admin.add_user') }}" method="post"></form>
+            <h2>Admin panel - User registration</h2>
+            {%  else %} -->
+            <form action="{{ url_for('user.process_reg') }}" method="post"></form>
+            <!-- <h2>User registration</h2>
+            {%  endif %} -->
+
                 {{ form.hidden_tag() }}
                 <div class="form-group">
                     {{ form.username.label }}<br>
@@ -28,6 +37,16 @@
                     {{ form.email.label }}<br>
                     {{ form.email() }}
                 </div>
+
+            <!--
+                {% if current_user.role == "admin" %}
+                <div class="form-group">
+                    {{ form.role.label }}<br>
+                    {{ form.role() }}
+                </div>
+                {%  endif %}
+            -->
+
                 <div class="form-group">
                     {{ form.password.label }}<br>
                     {{ form.password() }}
@@ -37,6 +56,7 @@
                     {{ form.password2() }}
                 </div>
                 {{ form.submit }}
+
             </form>
         </div>
         <div class="col-8">

@@ -2,7 +2,7 @@
 from datetime import datetime
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -18,10 +18,6 @@ class User(db.Model, UserMixin):
     email = Column(String(50))
     last_seen = Column(db.DateTime, default=datetime.utcnow)
     #customer = relationship("Customers")
-
-    def __repr__(self):
-        return f'Company id: {self.id}, name: {self.name}'
-
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

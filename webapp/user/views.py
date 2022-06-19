@@ -1,13 +1,15 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
-from flask_login import current_user, login_user, logout_user
+from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
+from flask_login import current_user, login_user, logout_user, LoginManager
 
 from datetime import datetime
 
+# from webapp import user_id
 from webapp.db import db
-from webapp.user.forms import LoginForm, RegistrationForm
+from webapp.user.forms import LoginForm, RegistrationForm, UserDataForm
 from webapp.user.models import User
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
+
 
 @blueprint.route('/login')
 def login():
@@ -32,10 +34,12 @@ def process_login():
     flash('Неправильное имя пользователя или пароль')
     return redirect(url_for('user.login'))
 
+
 @blueprint.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
 
 @blueprint.route('/register')
 def register():
@@ -44,6 +48,7 @@ def register():
     title = "Регистрация"
     form = RegistrationForm()
     return render_template('user/registration.html', page_title=title, form=form)
+
 
 @blueprint.route('/process-reg', methods=['POST'])
 def process_reg():
@@ -70,3 +75,47 @@ def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
+
+
+# @blueprint.route('/user/<int:user_id>')
+# def single_user(user_id):
+#     if current_user.is_authenticated:
+#         form = UserDataForm()
+#         this_user = User.query.filter(User.id == user_id).first()
+#         if not this_user:
+#             abort(404)
+#         return render_template("user/user_single.html", user=this_user, form=form, action_link=f"/user_update/{user_id}" )
+
+
+# @blueprint.route('/user_update/<int:user_id>', methods=['POST'])
+# def user_update(user_id):
+#     form = UserDataForm()
+
+#     #if form.validate_on_submit():
+#     user_to_update = User.query.filter(User.id == user_id).first()
+
+#     if request.form['update']:
+#         user_to_update.id = request.form["user_id"]
+#         user_to_update.username = request.form["username"]
+#         user_to_update.role = request.form["userrole"]
+#         user_to_update.email = request.form["useremail"]
+
+#         db.session.commit()
+
+#         flash('User updated successfully')
+#         return redirect(url_for('admin.users_page'))
+
+#     elif request.form['delete']:
+#         user_to_delete = User.query.filter(User.id == user_id).first()
+#         db.session.delete(user_to_delete)
+#         db.session.commit()
+#         return redirect(url_for('admin.users_page'))
+
+#     else:
+#         for field, errors in form.errors.items():
+#             for error in errors:
+#                 flash('Error in field "{}": - {}'.format(
+#                     getattr(form, field).label.text, 
+#                     error
+#                 ))
+#     return redirect(url_for('admin.admin_index'))

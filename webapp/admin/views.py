@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 
 #from webapp.config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 from webapp.db import db
+from webapp.user.forms import RegistrationForm
 from webapp.user.models import User
 from webapp.user.decorators import admin_required
 from webapp.user.forms import UserDataForm
@@ -26,6 +27,33 @@ def admin_index():
 def users_page():
     user_data = User.query.order_by(User.username).all()
     return render_template("user/user_list.html", user_data=user_data)
+
+# @blueprint.route("/add_user")
+# @admin_required
+# def user_reg():
+#     form = RegistrationForm()
+#     return render_template('user/registration.html', form=form)
+
+
+# @blueprint.route("/add_user", methods=['POST'])
+# @admin_required
+# def add_user():
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         new_user = User(username=form.username.data, email=form.email.data, role=form.role.data)
+#         new_user.set_password(form.password.data)
+#         db.session.add(new_user)
+#         db.session.commit()
+#         flash('Вы успешно зарегистрировали пользователя!')
+#         return redirect(url_for('admin.users_page'))
+#     else:
+#         for field, errors in form.errors.items():
+#             for error in errors:
+#                 flash('Ошибка в поле "{}": - {}'.format(
+#                     getattr(form, field).label.text, 
+#                     error
+#                 ))
+#         return redirect(url_for('admin.users_page'))
 
 
 @blueprint.route('/user/<int:user_id>')
