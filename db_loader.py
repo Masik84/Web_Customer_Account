@@ -8,11 +8,18 @@ app = create_app()
 data_file = 'DB_data.xlsx'
 
 with app.app_context():
-    addr_data = pd.read_excel(data_file,sheet_name='Addresses')
+    addr_data = pd.read_excel(data_file, sheet_name='Addresses')
+
+    data_in_db = Addresses.query.all()
+    print(data_in_db)
+
 
     addr_exists = Addresses.query.filter(Addresses.Address_Code == addr_data.Address_Code).count()
-    if not addr_exists:
-        addr_data.to_sql('Addresses', db)
+    print(addr_exists)
+    # if not addr_exists:
+    #     addr_data.to_sql('Addresses', con=db, 
+    #             if_exists='append', 
+    #             index=False)
     #     addr_to_create = Addresses(
     #         Address_Code=addr_data.Address_Code, 
     #         Region=addr_data.Region, 

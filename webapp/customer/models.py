@@ -66,7 +66,7 @@ class Addresses(db.Model):
     House = Column(String)
 
     def __repr__(self):
-        return f"{self.Postal_Code}, {self.Region}, {self.City}, {self.Street}, {self.House}"
+        return f"Addr_code: {self.Address_Code}: {self.Postal_Code}, {self.Region}, {self.City}, {self.Street}, {self.House}"
 
 
 class YFRP(db.Model):
