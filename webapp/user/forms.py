@@ -16,7 +16,6 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={"class": "form-control"})
     email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"class": "form-control"})
-#    role = StringField('Role', validators=[DataRequired()], render_kw={"class": "form-control"})
     password = PasswordField('Пароль', validators=[DataRequired()], render_kw={"class": "form-control"})
     password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')], render_kw={"class": "form-control"})
     submit = SubmitField('Отправить!',render_kw={"class": "btn btn-primary"})
@@ -32,10 +31,8 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Пользователь с такой электронной почтой уже зарегистрирован')
 
 
-class UserDataForm(FlaskForm):
+class UserDataUpdateForm(FlaskForm):
     user_id = HiddenField('User ID', validators=[DataRequired()], render_kw={"class": "form-control"})
     username = StringField("User Name", validators=[DataRequired()], render_kw={"class": "form-control"})
-    userrole = StringField("User Role", validators=[DataRequired()], render_kw={"class": "form-control"})
     useremail = StringField("User Email", validators=[DataRequired()], render_kw={"class": "form-control"})
-    update = SubmitField('Update', render_kw={"class": "btn btn-primary"})
-    delete = SubmitField('Delete', render_kw={"class": "btn"})
+    update = SubmitField('Save', render_kw={"class": "btn btn-primary"})

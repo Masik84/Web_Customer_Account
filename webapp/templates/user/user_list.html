@@ -24,7 +24,8 @@
           <td> <a href="{{ url_for('admin.single_user', user_id=user.id)}}">{{ user.username }}</a></td>
           <td>{{ user.email }}</td>
           <td>{{ user.role }}</td>
-          <td>{{ user.last_seen.strftime('%d.%m.%Y') }}</td>
+          <td>{{ user.created_on.strftime('%d.%m.%Y') }}</td>
+          <td>{{ user.last_visit.strftime('%d.%m.%Y') }}</td>
         </tr>
         {% endfor %}
 </table>

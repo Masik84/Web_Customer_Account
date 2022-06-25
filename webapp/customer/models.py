@@ -76,7 +76,7 @@ class YFRP(db.Model):
     YFRP = Column(Integer, index=True, unique=True, nullable=False)
     YFRP_Name = Column(String)
     Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True, nullable=False)
-    Addr = relationship('Addresses')
+    Addr_Table = relationship('Addresses')
 
     def __repr__(self):
         return f'YFRP id: {self.id}, name: {self.ShipTo_Name}'
@@ -90,14 +90,12 @@ class Customers(db.Model):
     INN = Column(String, nullable=False)
     KPP = Column(String)
     AM_id = Column(Integer, ForeignKey(Managers.id), index=True, nullable=False)
-    STL_id = Column(Integer, ForeignKey(STLs.id), index=True, nullable=False)
     Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True, nullable=False)
     PayTerm_id = Column(Integer, ForeignKey(PaymentTerms.id), index=True, nullable=False)
 
-    AM = relationship('Managers')
-    STL = relationship('STLs')
-    Addr = relationship('Addresses')
-    Payment_term = relationship("PaymentTerms")
+    AM_Table = relationship('Managers')
+    Addr_Table = relationship('Addresses')
+    PayTerm_Table = relationship("PaymentTerms")
 
 
 
@@ -116,16 +114,12 @@ class ShipTos(db.Model):
     SoldTo_id = Column(Integer, ForeignKey(Customers.id), nullable=False)
     YFRP_id = Column(Integer, ForeignKey(YFRP.id), nullable=False)
     AM_id = Column(Integer, ForeignKey(Managers.id), index=True, nullable=False)
-    STL_id = Column(Integer, ForeignKey(STLs.id), index=True, nullable=False)
-    LoB_id = Column(Integer, ForeignKey(LoB.id), index=True, nullable=False)
     Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True, nullable=False)
 
-    SoldTo = relationship('Customers')
-    YFRP = relationship('YFRP')
-    AM = relationship('Managers')
-    STL = relationship('STLs')
-    LoB = relationship('LoB')
-    Addr = relationship('Addresses')
+    SoldTo_Table = relationship('Customers')
+    YFRP_Table = relationship('YFRP')
+    AM_Table = relationship('Managers')
+    Addr_Table = relationship('Addresses')
 
     def __repr__(self):
         return f'ShipTo id: {self.id}, name: {self.ShipTo_Name}'

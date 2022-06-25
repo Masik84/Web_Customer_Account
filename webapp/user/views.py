@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
-from flask_login import current_user, login_user, logout_user, LoginManager
+from flask_login import current_user, login_required, login_user, logout_user, LoginManager
 
 from datetime import datetime
 
 # from webapp import user_id
 from webapp.db import db
-from webapp.user.forms import LoginForm, RegistrationForm, UserDataForm
+from webapp.user.forms import LoginForm, RegistrationForm, UserDataUpdateForm
 from webapp.user.models import User
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
@@ -14,7 +14,7 @@ blueprint = Blueprint('user', __name__, url_prefix='/users')
 @blueprint.route('/login')
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('main_win.index'))
+        return redirect(url_for('index'))
     title = "Авторизация"
     login_form = LoginForm()
     return render_template('user/login.html', page_title=title, form=login_form)
@@ -44,7 +44,7 @@ def logout():
 @blueprint.route('/register')
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('main_win.index'))
+        return redirect(url_for('index'))
     title = "Регистрация"
     form = RegistrationForm()
     return render_template('user/registration.html', page_title=title, form=form)
@@ -77,45 +77,40 @@ def before_request():
         db.session.commit()
 
 
-# @blueprint.route('/user/<int:user_id>')
-# def single_user(user_id):
-#     if current_user.is_authenticated:
-#         form = UserDataForm()
-#         this_user = User.query.filter(User.id == user_id).first()
-#         if not this_user:
-#             abort(404)
-#         return render_template("user/user_single.html", user=this_user, form=form, action_link=f"/user_update/{user_id}" )
+@blueprint.route('/me')
+@login_required
+def single_user():
+    if current_user.is_authenticated:
+        form = UserDataUpdateForm()
+        return render_template("user/user_own_page.html", user=current_user, form=form)
 
 
-# @blueprint.route('/user_update/<int:user_id>', methods=['POST'])
-# def user_update(user_id):
-#     form = UserDataForm()
+@blueprint.route('/', methods=['POST'])
+@login_required
+def user_self_update():
+    form = UserDataUpdateForm()
+    if form.validate_on_submit():
+        user_to_update = User.query.filter(User.id == current_user.id).first()
 
-#     #if form.validate_on_submit():
-#     user_to_update = User.query.filter(User.id == user_id).first()
+        user_to_update.username = request.form["username"]
+        user_to_update.email = request.form["useremail"]
 
-#     if request.form['update']:
-#         user_to_update.id = request.form["user_id"]
-#         user_to_update.username = request.form["username"]
-#         user_to_update.role = request.form["userrole"]
-#         user_to_update.email = request.form["useremail"]
+        db.session.commit()
 
-#         db.session.commit()
+        flash('Info updated successfully')
+        return redirect(url_for('index'))
 
-#         flash('User updated successfully')
-#         return redirect(url_for('admin.users_page'))
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash('Error in field "{}": - {}'.format(
+                    getattr(form, field).label.text, 
+                    error
+                ))
+    return redirect(url_for('index'))
 
-#     elif request.form['delete']:
-#         user_to_delete = User.query.filter(User.id == user_id).first()
-#         db.session.delete(user_to_delete)
-#         db.session.commit()
-#         return redirect(url_for('admin.users_page'))
 
-#     else:
-#         for field, errors in form.errors.items():
-#             for error in errors:
-#                 flash('Error in field "{}": - {}'.format(
-#                     getattr(form, field).label.text, 
-#                     error
-#                 ))
-#     return redirect(url_for('admin.admin_index'))
+@blueprint.route('/delete_me', methods=['POST'])
+@login_required
+def user_self_delete():
+    pass

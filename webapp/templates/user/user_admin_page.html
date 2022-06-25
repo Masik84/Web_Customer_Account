@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1>Admin User Profile page</h1>
+<br>
+<a href="{{ url_for('admin.admin_index') }}" class="btn">Back</a>
+<br>
+
+<br>
+
+    <div class="row">
+        <div class="col-4">
+            <form action="{{ action_link }}" method="post">
+            {% include('messages.html') %}
+
+            {{ form.csrf_token }}
+
+                <div class="form-group">
+                    {{ form.user_id.label }}<br>
+                    {{ form.user_id(value=user.id) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.username.label }}<br>
+                    {{ form.username(value=user.username) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.userrole.label }}<br>
+                    {{ form.userrole(value=user.role) }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.useremail.label }}<br>
+                    {{ form.useremail(value=user.email) }}
+                </div>
+
+                <br>
+                {{ form.update }}
+                <br>
+            </form>
+
+            <br>
+            <br>
+            <br>
+            <a action="{{ url_for('admin.user_delete') }}" class="btn btn-danger">Delete</a>
+
+        </div>
+        <div class="col-8">
+            
+        </div>
+    </div>
+
+{% endblock %}

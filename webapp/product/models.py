@@ -53,9 +53,7 @@ class SalProducts(db.Model):
     Sal_Prod_Code = Column(String, index=True, unique=True)
     Sal_Prod_Name = Column(String)
     Family_id = Column(Integer, ForeignKey(ProdFamily.id), index=True, nullable=False)
-    SubClass_id = Column(Integer, ForeignKey(ProdSubClass.id), index=True, nullable=False)
-    Family_Code = relationship('ProdFamily')
-    Sub_Class = relationship('ProdSubClass')
+    Family_Table = relationship('ProdFamily')
 
     def __repr__(self):
         return f'{self.Sal_Prod_Name}'
@@ -80,14 +78,10 @@ class Materials(db.Model):
     Pack_type = Column(String)
     
     SalProduct_id = Column(Integer, ForeignKey(SalProducts.id), index=True, nullable=False)
-    Family_id = Column(Integer, ForeignKey(ProdFamily.id), index=True, nullable=False)
-    SubClass_id = Column(Integer, ForeignKey(ProdSubClass.id), index=True, nullable=False)
     BO_id = Column(Integer, ForeignKey(BOs.id), index=True, nullable=False)
     Status_id = Column(Integer, ForeignKey(MaterialStatus.id), index=True, nullable=False)
     
-    Sal_Prod_Code = relationship('SalProducts')
-    Family_Code = relationship('ProdFamily')
-    Sub_Class = relationship('ProdSubClass')
+    Sal_Prod_Table = relationship('SalProducts')
     BO_type = relationship('BOs')
     Status_code = relationship('MaterialStatus')
 

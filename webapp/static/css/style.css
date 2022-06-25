@@ -78,6 +78,8 @@ body {
 	border-radius: 5px;
 	background-color: #6272a4;
 	color: #f8f8f2;
+    height: 35px;
+    vertical-align: middle;
 }
 
 .btn:hover {
@@ -90,6 +92,12 @@ body {
     box-shadow: 0 0 0 .2rem #bd93f9 !important;
 	border-style: solid; 
 	border-radius: 4px; 
+}
+
+.btn-danger{
+    height: 40px;
+    width: 80px;
+    background-color: red;
 }
 
 .row {
