@@ -1,15 +1,28 @@
 from decimal import Decimal
-from sqlalchemy import Column, ForeignKey, Integer, Numeric, String
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 
 from webapp.db import db
 
 
+class ED(db.Model):
+    __tablename__ = 'ED'
+    id = Column(Integer, primary_key=True)
+    From = Column(DateTime, index=True, unique=True, nullable=False)
+    To = Column(DateTime, index=True, unique=True, nullable=False)
+    Rate = Column(Float)
+    is_deleted = Column(Boolean, default=False)
+
+    def __repr__(self):
+        return f'ED from {self.From} is {self.Rate} Rub per Tonne'
+
+
 class BOs(db.Model):
     __tablename__ = 'BOs'
     id = Column(Integer, primary_key=True)
     BO_type = Column(String)
+    is_deleted = Column(Boolean, default=False)
 
     def __repr__(self):
         return f'{self.BO_type}'
@@ -20,6 +33,7 @@ class MaterialStatus(db.Model):
     id = Column(Integer, primary_key=True)
     Status_code = Column(Integer, index=True, unique=True)
     Status_descr = Column(String)
+    is_deleted = Column(Boolean, default=False)
 
     def __repr__(self):
         return f'{self.Status_descr}'
@@ -30,6 +44,7 @@ class ProdSubClass(db.Model):
     id = Column(Integer, primary_key=True)
     Sub_Class = Column(Integer, index=True, unique=True)
     Sub_Class_Name = Column(String)
+    is_deleted = Column(Boolean, default=False)
 
     def __repr__(self):
         return f'{self.Sub_Class_Name}'
@@ -42,6 +57,7 @@ class ProdFamily(db.Model):
     Family_Name = Column(String)
     SubClass_id = Column(Integer, ForeignKey(ProdSubClass.id), index=True, nullable=False)
     Sub_Class = relationship('ProdSubClass')
+    is_deleted = Column(Boolean, default=False)
 
     def __repr__(self):
         return f'{self.Family_Name}'
@@ -54,6 +70,7 @@ class SalProducts(db.Model):
     Sal_Prod_Name = Column(String)
     Family_id = Column(Integer, ForeignKey(ProdFamily.id), index=True, nullable=False)
     Family_Table = relationship('ProdFamily')
+    is_deleted = Column(Boolean, default=False)
 
     def __repr__(self):
         return f'{self.Sal_Prod_Name}'
@@ -76,6 +93,7 @@ class Materials(db.Model):
     Net_Weight = Column(Numeric)
     ED_type = Column(String)
     Pack_type = Column(String)
+    is_deleted = Column(Boolean, default=False)
     
     SalProduct_id = Column(Integer, ForeignKey(SalProducts.id), index=True, nullable=False)
     BO_id = Column(Integer, ForeignKey(BOs.id), index=True, nullable=False)

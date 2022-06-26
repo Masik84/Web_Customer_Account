@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     email = Column(String(50))
     created_on = Column(db.DateTime, default=datetime.utcnow)
     last_visit = Column(db.DateTime, default=datetime.utcnow)
+    is_deleted = Column(db.Boolean, default=False)
     # customer = relationship("Customers")
 
     def set_password(self, password):

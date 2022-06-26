@@ -9,6 +9,15 @@ body {
     color: #44475a;
 }
 
+.flash {
+    height: 35px !important;
+    padding-top: 1rem;
+    vertical-align: middle;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.375rem;
+}
+
 .bg-light {
     background-color: #6272a4 !important;
 }

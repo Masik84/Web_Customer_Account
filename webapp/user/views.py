@@ -28,16 +28,17 @@ def process_login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            flash('Вы вошли на сайт')
+            flash('Вы вошли на сайт', category='alert-success')
             return redirect(url_for('index'))
 
-    flash('Неправильное имя пользователя или пароль')
+    flash('Неправильное имя пользователя или пароль', category='alert-danger')
     return redirect(url_for('user.login'))
 
 
 @blueprint.route('/logout')
 def logout():
     logout_user()
+    flash('Вы вышли с сайт', category='alert-warning')
     return redirect(url_for('index'))
 
 
@@ -58,7 +59,7 @@ def process_reg():
         new_user.set_password(form.password.data)
         db.session.add(new_user)
         db.session.commit()
-        flash('Вы успешно зарегистрировались!')
+        flash('Вы успешно зарегистрировались!', category='alert-success')
         return redirect(url_for('user.login'))
     else:
         for field, errors in form.errors.items():
@@ -66,7 +67,7 @@ def process_reg():
                 flash('Ошибка в поле "{}": - {}'.format(
                     getattr(form, field).label.text, 
                     error
-                ))
+                ), category='alert-danger')
         return redirect(url_for('user.register'))
 
 
@@ -97,7 +98,7 @@ def user_self_update():
 
         db.session.commit()
 
-        flash('Info updated successfully')
+        flash('Info updated successfully', category='alert-success')
         return redirect(url_for('index'))
 
     else:

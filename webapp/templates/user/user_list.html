@@ -15,7 +15,9 @@
           <th scope="col">User name</th>
           <th scope="col">Email</th>
           <th scope="col">Role</th>
+          <th scope="col">Created on</th>
           <th scope="col">Last visit</th>
+          <th scope="col">Deletion Flag</th>
         </tr>
       </thead>
       <tbody>
@@ -26,6 +28,7 @@
           <td>{{ user.role }}</td>
           <td>{{ user.created_on.strftime('%d.%m.%Y') }}</td>
           <td>{{ user.last_visit.strftime('%d.%m.%Y') }}</td>
+          <td>{{ user.is_deleted }}</td>
         </tr>
         {% endfor %}
 </table>

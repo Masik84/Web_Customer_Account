@@ -2,23 +2,24 @@
 
 {% block content %}
 
-{% if current_user.role == "admin" %}
 
 <h1>Admin Customer page</h1>
 <br>
 <a href="{{ url_for('admin.admin_index') }}" class="btn">Back</a>
-<br>
 
-{% else %}
+<div class="row" blank_row></div>
 
-<h1>User Customer page</h1>
-<br>
-<a href="/" class="btn">Back</a>
-<br>
+<div class="row">
+    <div class="col-12">
+        <label for="form-file" class="form-label" id="cust_update_lable">Upload File for update</label><br>
+        <form method=post enctype=multipart/form-data action="{{ url_for('сustomer.update_customers') }}">
+            <input type=file name=file>
+            <input class="btn" type=submit value=Submit>
+        </form>
+    </div>
+</div>
 
-{% endif%}
-
-<br>
+<div class="row" blank_row></div>
 
 <table class="table table-hover">
     <thead>
@@ -38,12 +39,12 @@
         <tr>
           <td> <a>{{ cust.SoldTo }}</a></td>
           <td>{{ cust.SoldTo_Name }}</td>
-          <td>{{ cust.AM}}</td>
-          <td>{{ cust.STL }}</td>
+          <td>{{ cust.AM_Table.AM_name}}</td>
+          <td>{{ cust.AM_Table.STL_Table.STL }}</td>
           <td>{{ cust.INN }}</td>
           <td>{{ cust.KPP }}</td>
-          <td>{{ cust.Payment_term }}</td>
-          <td>{{ cust.Addr }}</td>
+          <td>{{ cust.PayTerm_Table.PT_description }}</td>
+          <td>{{ cust.Addr_Table }}</td>
         </tr>
         {% endfor %}
 </table>

@@ -3,10 +3,9 @@ from sqlalchemy.orm import relationship
 
 
 #sys.path.append(os.path.join( os.dirname(__file__), '..' ) )
-import webapp.db as db
+from db import Base
 
-#     company_id = Column(Integer, ForeignKey(Company.id), index=True, nullable=False)
-class LoB(db.Model):
+class LoB(Base):
     __tablename__ = 'LoB'
 
     id = Column(Integer, primary_key=True)
@@ -17,7 +16,7 @@ class LoB(db.Model):
         return self.LoB
 
 
-class PaymentTerms(db.Model):
+class PaymentTerms(Base):
     __tablename__ = 'PaymentTerms'
 
     id = Column(Integer, primary_key=True)
@@ -29,7 +28,7 @@ class PaymentTerms(db.Model):
         return self.PT_description
 
 
-class STLs(db.Model):
+class STLs(Base):
     __tablename__ = 'STLs'
 
     id = Column(Integer, primary_key=True)
@@ -40,7 +39,7 @@ class STLs(db.Model):
         return self.STL
 
 
-class Managers(db.Model):
+class Managers(Base):
     __tablename__ = 'Managers'
     
     id = Column(Integer, primary_key=True)
@@ -59,7 +58,7 @@ class Managers(db.Model):
         return self.AM_name
 
 
-class Addresses(db.Model):
+class Addresses(Base):
     __tablename__ = 'Addresses'
 
     id = Column(Integer, primary_key=True)
@@ -75,7 +74,7 @@ class Addresses(db.Model):
         return f"{self.Postal_Code}, {self.Region}, {self.City}, {self.Street}, {self.House}"
 
 
-class YFRP(db.Model):
+class YFRP(Base):
     __tablename__ = 'YFRP'
 
     id = Column(Integer, primary_key=True)
@@ -89,7 +88,7 @@ class YFRP(db.Model):
     def __repr__(self):
         return f'YFRP id: {self.id}, name: {self.ShipTo_Name}'
 
-class Customers(db.Model):
+class Customers(Base):
     __tablename__ = 'Customers'
 
     id = Column(Integer, primary_key=True)
@@ -106,13 +105,11 @@ class Customers(db.Model):
     Addr_Table = relationship('Addresses')
     PayTerm_Table = relationship("PaymentTerms")
 
-
-
     def __repr__(self):
         return f'Company id: {self.id}, name: {self.SoldTo_Name}'
 
 
-class ShipTos(db.Model):
+class ShipTos(Base):
     __tablename__ = 'Shipto'
 
     id = Column(Integer, primary_key=True)

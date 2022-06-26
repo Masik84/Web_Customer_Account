@@ -1,7 +1,9 @@
-import os
-from flask import Blueprint, abort, flash, redirect, render_template, request, send_from_directory, url_for
+import csv, os
+from datetime import datetime
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
-from flask_login import current_user
+import pandas as pd
+import numpy as np
 
 #from webapp.config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 from webapp.db import db
@@ -10,7 +12,7 @@ from webapp.user.models import User
 from webapp.user.decorators import admin_required
 
 
-from webapp.customer.models import STLs, Managers, LoB, Customers
+from webapp.customer.models import Addresses, STLs, Managers, LoB, Customers
 from webapp.product.models import Materials, SalProducts, ProdFamily, ProdSubClass, BOs
 
 blueprint = Blueprint('admin', __name__)
@@ -83,7 +85,7 @@ def user_update(user_id):
 
         db.session.commit()
 
-        flash('User updated successfully')
+        flash('User updated successfully', category='alert-success')
         return redirect(url_for('admin.users_page'))
 
     else:
@@ -92,19 +94,21 @@ def user_update(user_id):
                 flash('Error in field "{}": - {}'.format(
                     getattr(form, field).label.text, 
                     error
-                ))
+                ), category='alert-danger')
     return redirect(url_for('admin.admin_index'))
 
 @blueprint.route('/user_delete', methods=['POST'])
 @admin_required
-def user_delete(user_id):
+def user_delete():
     form = AdminUserUpdateForm()
 
-    if form.validate_on_submit():
-        user_to_delete = User.query.filter(User.id == user_id).first()
-        
-        db.session.delete(user_to_delete)
-        db.session.commit()
+    user_to_delete = User.query.filter(User.id == request.form["user_id"]).first()
+    user_to_delete.id = request.form['user_id']
+    user_to_delete.is_deleted = True
+    
+    db.session.commit()
+    flash('User updated successfully', category='alert-success')
+    return redirect(url_for('admin.users_page'))
 
 
 ################################################################################
@@ -117,26 +121,10 @@ def allowed_file(filename):
    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@blueprint.route('/upload_file', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
-            return redirect(url_for('admin.uploaded_file', filename=filename))
-    return redirect(url_for('admin.admin_index'))
+@blueprint.route('/update_products', methods=['GET', 'POST'])
+def update_products():
+    pass
 
-
-@blueprint.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+@blueprint.route('/update_managers', methods=['GET', 'POST'])
+def update_managers():
+    pass
