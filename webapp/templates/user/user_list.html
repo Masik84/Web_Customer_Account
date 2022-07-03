@@ -5,6 +5,7 @@
 <h1>Admin Users page</h1>
 <br>
 <a href="{{ url_for('admin.admin_index') }}" class="btn">Back</a>
+<a href="{{ url_for('admin.register') }}" class="btn">Create User</a>
 
 <br>
 <br>
@@ -15,6 +16,8 @@
           <th scope="col">User name</th>
           <th scope="col">Email</th>
           <th scope="col">Role</th>
+          <th scope="col">Company Code</th>
+          <th scope="col">Company Name</th>
           <th scope="col">Created on</th>
           <th scope="col">Last visit</th>
           <th scope="col">Deletion Flag</th>
@@ -26,6 +29,8 @@
           <td> <a href="{{ url_for('admin.single_user', user_id=user.id)}}">{{ user.username }}</a></td>
           <td>{{ user.email }}</td>
           <td>{{ user.role }}</td>
+          <td>{{ user.customer_table.SoldTo }}</td>
+          <td>{{ user.customer_table.SoldTo_Name }}</td>
           <td>{{ user.created_on.strftime('%d.%m.%Y') }}</td>
           <td>{{ user.last_visit.strftime('%d.%m.%Y') }}</td>
           <td>{{ user.is_deleted }}</td>

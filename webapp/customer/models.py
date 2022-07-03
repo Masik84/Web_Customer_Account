@@ -1,11 +1,9 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relationship
 
+from webapp.db import db
 
-#sys.path.append(os.path.join( os.dirname(__file__), '..' ) )
-import webapp.db as db
 
-#     company_id = Column(Integer, ForeignKey(Company.id), index=True, nullable=False)
 class LoB(db.Model):
     __tablename__ = 'LoB'
 
@@ -42,14 +40,14 @@ class STLs(db.Model):
 
 class Managers(db.Model):
     __tablename__ = 'Managers'
-    
+
     id = Column(Integer, primary_key=True)
     Sales_Grp = Column(String, index=True, unique=True, nullable=False)
-    AM_name = Column(String)
+    AM_name = Column(String, nullable=False)
     SO_code = Column(String)
 
-    STL_id = Column(Integer, ForeignKey(STLs.id), index=True, nullable=False)
-    LoB_id = Column(Integer, ForeignKey(LoB.id), index=True, nullable=False)
+    STL_id = Column(Integer, ForeignKey(STLs.id), index=True)
+    LoB_id = Column(Integer, ForeignKey(LoB.id), index=True)
     is_deleted = Column(Boolean, default=False)
 
     STL_Table = relationship('STLs')
@@ -89,24 +87,23 @@ class YFRP(db.Model):
     def __repr__(self):
         return f'YFRP id: {self.id}, name: {self.ShipTo_Name}'
 
+
 class Customers(db.Model):
     __tablename__ = 'Customers'
 
     id = Column(Integer, primary_key=True)
     SoldTo = Column(Integer, index=True, unique=True, nullable=False)
     SoldTo_Name = Column(String)
-    INN = Column(String, nullable=False)
-    KPP = Column(String)
-    AM_id = Column(Integer, ForeignKey(Managers.id), index=True, nullable=False)
-    Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True, nullable=False)
-    PayTerm_id = Column(Integer, ForeignKey(PaymentTerms.id), index=True, nullable=False)
+    INN = Column(String)
+    KPP = Column(String, nullable=True)
+    AM_id = Column(Integer, ForeignKey(Managers.id), index=True)
+    Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True)
+    PayTerm_id = Column(Integer, ForeignKey(PaymentTerms.id), index=True)
     is_deleted = Column(Boolean, default=False)
 
     AM_Table = relationship('Managers')
     Addr_Table = relationship('Addresses')
     PayTerm_Table = relationship("PaymentTerms")
-
-
 
     def __repr__(self):
         return f'Company id: {self.id}, name: {self.SoldTo_Name}'
@@ -118,12 +115,12 @@ class ShipTos(db.Model):
     id = Column(Integer, primary_key=True)
     ShipTo = Column(Integer, index=True, unique=True, nullable=False)
     ShipTo_Name = Column(String)
-    POD = Column(String)
-    
-    SoldTo_id = Column(Integer, ForeignKey(Customers.id), index=True, nullable=False)
-    YFRP_id = Column(Integer, ForeignKey(YFRP.id), index=True)
-    AM_id = Column(Integer, ForeignKey(Managers.id), index=True, nullable=False)
-    Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True, nullable=False)
+    POD = Column(String, nullable=True)
+
+    SoldTo_id = Column(Integer, ForeignKey(Customers.id), index=True)
+    YFRP_id = Column(Integer, ForeignKey(YFRP.id), index=True, nullable=True)
+    AM_id = Column(Integer, ForeignKey(Managers.id), index=True)
+    Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True)
     is_deleted = Column(Boolean, default=False)
 
     SoldTo_Table = relationship('Customers')
@@ -133,5 +130,3 @@ class ShipTos(db.Model):
 
     def __repr__(self):
         return f'ShipTo id: {self.id}, name: {self.ShipTo_Name}'
-        
-

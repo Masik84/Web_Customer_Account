@@ -9,7 +9,7 @@ class LoB(Base):
     __tablename__ = 'LoB'
 
     id = Column(Integer, primary_key=True)
-    LoB = Column(String, index=True, unique=True, nullable=False)
+    LoB = Column(String, index=True, unique=True)
     is_deleted = Column(Boolean, default=False)
 
     def __repr__(self):
@@ -20,7 +20,7 @@ class PaymentTerms(Base):
     __tablename__ = 'PaymentTerms'
 
     id = Column(Integer, primary_key=True)
-    Pay_term = Column(String, index=True, unique=True, nullable=False)
+    Pay_term = Column(String, index=True, unique=True)
     PT_description = Column(String)
     is_deleted = Column(Boolean, default=False)
 
@@ -32,7 +32,7 @@ class STLs(Base):
     __tablename__ = 'STLs'
 
     id = Column(Integer, primary_key=True)
-    STL = Column(String, index=True, unique=True, nullable=False)
+    STL = Column(String, index=True, unique=True)
     is_deleted = Column(Boolean, default=False)
 
     def __repr__(self):
@@ -43,12 +43,12 @@ class Managers(Base):
     __tablename__ = 'Managers'
     
     id = Column(Integer, primary_key=True)
-    Sales_Grp = Column(String, index=True, unique=True, nullable=False)
+    Sales_Grp = Column(String, index=True, unique=True)
     AM_name = Column(String)
     SO_code = Column(String)
 
-    STL_id = Column(Integer, ForeignKey(STLs.id), index=True, nullable=False)
-    LoB_id = Column(Integer, ForeignKey(LoB.id), index=True, nullable=False)
+    STL_id = Column(Integer, ForeignKey(STLs.id), index=True)
+    LoB_id = Column(Integer, ForeignKey(LoB.id), index=True)
     is_deleted = Column(Boolean, default=False)
 
     STL_Table = relationship('STLs')
@@ -62,7 +62,7 @@ class Addresses(Base):
     __tablename__ = 'Addresses'
 
     id = Column(Integer, primary_key=True)
-    Address_Code = Column(Integer, index=True, unique=True, nullable=False)
+    Address_Code = Column(Integer, index=True, unique=True)
     Region = Column(String)
     City = Column(String)
     Postal_Code = Column(Integer)
@@ -78,7 +78,7 @@ class YFRP(Base):
     __tablename__ = 'YFRP'
 
     id = Column(Integer, primary_key=True)
-    YFRP = Column(Integer, index=True, unique=True, nullable=False)
+    YFRP = Column(Integer, index=True, unique=True)
     YFRP_Name = Column(String)
     Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True)
     is_deleted = Column(Boolean, default=False)
@@ -92,13 +92,13 @@ class Customers(Base):
     __tablename__ = 'Customers'
 
     id = Column(Integer, primary_key=True)
-    SoldTo = Column(Integer, index=True, unique=True, nullable=False)
+    SoldTo = Column(Integer, index=True, unique=True)
     SoldTo_Name = Column(String)
-    INN = Column(String, nullable=False)
+    INN = Column(String)
     KPP = Column(String)
-    AM_id = Column(Integer, ForeignKey(Managers.id), index=True, nullable=False)
-    Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True, nullable=False)
-    PayTerm_id = Column(Integer, ForeignKey(PaymentTerms.id), index=True, nullable=False)
+    AM_id = Column(Integer, ForeignKey(Managers.id), index=True)
+    Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True)
+    PayTerm_id = Column(Integer, ForeignKey(PaymentTerms.id), index=True)
     is_deleted = Column(Boolean, default=False)
 
     AM_Table = relationship('Managers')
@@ -113,14 +113,14 @@ class ShipTos(Base):
     __tablename__ = 'Shipto'
 
     id = Column(Integer, primary_key=True)
-    ShipTo = Column(Integer, index=True, unique=True, nullable=False)
+    ShipTo = Column(Integer, index=True, unique=True)
     ShipTo_Name = Column(String)
-    POD = Column(String)
+    POD = Column(String, nullable=True)
     
-    SoldTo_id = Column(Integer, ForeignKey(Customers.id), index=True, nullable=False)
-    YFRP_id = Column(Integer, ForeignKey(YFRP.id), index=True)
-    AM_id = Column(Integer, ForeignKey(Managers.id), index=True, nullable=False)
-    Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True, nullable=False)
+    SoldTo_id = Column(Integer, ForeignKey(Customers.id), index=True)
+    YFRP_id = Column(Integer, ForeignKey(YFRP.id), index=True, nullable=True)
+    AM_id = Column(Integer, ForeignKey(Managers.id), index=True)
+    Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True)
     is_deleted = Column(Boolean, default=False)
 
     SoldTo_Table = relationship('Customers')
@@ -130,5 +130,4 @@ class ShipTos(Base):
 
     def __repr__(self):
         return f'ShipTo id: {self.id}, name: {self.ShipTo_Name}'
-        
 

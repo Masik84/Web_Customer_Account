@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Admin FX Exchange Rate page</h1>
+<br>
+<a href="{{ url_for('admin.admin_index') }}" class="btn">Back</a>
+<br>
+<br>
+
+<div class="row" blank_row></div>
+
+<a href="{{ url_for('admin.update_fx_usd') }}" class="btn">Update USD Rates</a>
+
+
+<div class="row" blank_row></div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Currency</th>
+          <th scope="col">Nominal</th>
+          <th scope="col">Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fx in fx_data %}
+        <tr>
+          <td> <a>{{ fx.FX_date }}</a></td>
+          <td>{{ fx.Curr_Name }}</td>
+          <td>{{ fx.Nominal }}</td>
+          <td>{{ fx.Rate }}</td>
+        </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}

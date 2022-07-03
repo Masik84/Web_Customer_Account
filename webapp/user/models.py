@@ -2,11 +2,12 @@
 from datetime import datetime
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from webapp.db import db
+from webapp.customer.models import Customers
 
 
 class User(db.Model, UserMixin):
@@ -16,10 +17,12 @@ class User(db.Model, UserMixin):
     password = Column(String(128))
     role = Column(String(10), index=True)
     email = Column(String(50))
+    comp_id = Column(Integer, ForeignKey(Customers.id), index=True)
     created_on = Column(db.DateTime, default=datetime.utcnow)
     last_visit = Column(db.DateTime, default=datetime.utcnow)
     is_deleted = Column(db.Boolean, default=False)
-    # customer = relationship("Customers")
+
+    customer_table = relationship("Customers")
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

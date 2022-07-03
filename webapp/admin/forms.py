@@ -1,6 +1,6 @@
-import imp
+from xmlrpc.client import Boolean
 from flask_wtf import FlaskForm
-from wtforms import HiddenField, StringField, SubmitField, PasswordField, IntegerField
+from wtforms import StringField, SubmitField, PasswordField, SelectField, BooleanField
 from wtforms.validators import DataRequired, Email, ValidationError
 
 from webapp.user.models import User
@@ -9,7 +9,8 @@ from webapp.user.models import User
 class AdminRegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={"class": "form-control"})
     email = StringField('Email', validators=[DataRequired(), Email()], render_kw={"class": "form-control"})
-    role = StringField('Role', validators=[DataRequired()], render_kw={"class": "form-control"})
+    role = SelectField('Role', validators=[DataRequired()], choices=[("", "Please Choose"), ("1", "admin"), ("2", "user")], render_kw={"class": "form-control"})
+    cust_inn = StringField('Company Tax Code (INN)', validators=[DataRequired()], render_kw={"class": "form-control"})
     password = PasswordField('Password', validators=[DataRequired()], render_kw={"class": "form-control"})
     submit = SubmitField('Submit!',render_kw={"class": "btn btn-primary"})
 
@@ -29,4 +30,6 @@ class AdminUserUpdateForm(FlaskForm):
     username = StringField("User Name", validators=[DataRequired()], render_kw={"class": "form-control"})
     useremail = StringField("User Email", validators=[DataRequired()], render_kw={"class": "form-control"})
     userrole = StringField("User Role", validators=[DataRequired()], render_kw={"class": "form-control"})
+    cust_soldto = StringField('Company Code', validators=[DataRequired()], render_kw={"class": "form-control"})
+    del_flag = BooleanField('Deletion Flag', render_kw={"class": "form-check"})
     update = SubmitField('Update', render_kw={"class": "btn btn-primary"})

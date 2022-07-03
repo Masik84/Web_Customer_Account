@@ -8,6 +8,20 @@
 <br>
 <br>
 
+<div class="row" blank_row></div>
+
+<div class="row">
+    <div class="col-12">
+        <label for="form-file" class="form-label" id="cust_update_lable">Upload File for update</label><br>
+        <form method=post enctype=multipart/form-data action="{{ url_for('сustomer.update_managers') }}">
+            <input type=file name=file>
+            <input class="btn" type=submit value=Submit>
+        </form>
+    </div>
+</div>
+
+<div class="row" blank_row></div>
+
 <table class="table table-hover">
     <thead>
         <tr>

@@ -12,18 +12,26 @@
 
 <br>
 <a href="{{ url_for('products.materials_page') }}" class="btn">Materials</a>
-<br>
 
-<br>
 <a href="{{ url_for('products.sal_prod_page') }}" class="btn">Saleable Prod</a>
-<br>
 
-<br>
 <a href="{{ url_for('products.family_page') }}" class="btn">Family Prod</a>
-<br>
+
+<a href="{{ url_for('products.subclass_page') }}" class="btn">SubClass</a>
 
 <br>
-<a href="{{ url_for('products.subclass_page') }}" class="btn">SubClass</a>
 <br>
+<br>
+<br>
+
+<div class="row">
+    <div class="col-12">
+        <label for="form-file" class="form-label" id="cust_update_lable">Upload File for update</label><br>
+        <form method=post enctype=multipart/form-data action="{{ url_for('products.update_products') }}">
+            <input type=file name=file>
+            <input class="btn" type=submit value=Submit>
+        </form>
+    </div>
+</div>
 
 {% endblock %}

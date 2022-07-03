@@ -123,9 +123,15 @@ def save_YFRP(data):
     return YFRP_unique    
 
 
-def get_id_YFRP(YFRP):
-    db_data = YFRP.query.filter(YFRP.YFRP == YFRP).first()
-    Yfrp_id = db_data.id
+def get_id_YFRP(YFRP_find):
+    print(YFRP_find)
+    if YFRP_find != 'nan':
+        YFRP_find = int(float(YFRP_find))
+        db_data = YFRP.query.filter(YFRP.YFRP == YFRP_find).first()
+        Yfrp_id = db_data.id
+
+    else:
+        Yfrp_id = None
 
     return Yfrp_id
 
@@ -191,7 +197,7 @@ def save_Shipto(data):
     for mylist in shipto_unique:
         shipto_exists = ShipTos.query.filter(ShipTos.ShipTo == mylist['ShipTo']).count()
         if shipto_exists == 0:
-            new_shipto = Customers(
+            new_shipto = ShipTos(
                 ShipTo = mylist['ShipTo'],
                 ShipTo_Name = mylist['ShipTo_Name'],
                 POD = mylist['POD'],
@@ -200,7 +206,6 @@ def save_Shipto(data):
                 AM_id = get_id_AM(mylist['AM']),
                 Addr_id = get_id_Address(mylist['ShipTo']),
                 is_deleted = False)
-
             db_session.add(new_shipto)
             db_session.commit()
     

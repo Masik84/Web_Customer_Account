@@ -2,11 +2,13 @@ from flask import Blueprint, render_template, flash, redirect, url_for, request,
 from flask_login import current_user, login_required, login_user, logout_user, LoginManager
 
 from datetime import datetime
+from webapp.customer.views import get_id_Soldto_byINN
 
 # from webapp import user_id
 from webapp.db import db
 from webapp.user.forms import LoginForm, RegistrationForm, UserDataUpdateForm
 from webapp.user.models import User
+from webapp.customer.models import Customers
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
@@ -55,12 +57,21 @@ def register():
 def process_reg():
     form = RegistrationForm()
     if form.validate_on_submit():
-        new_user = User(username=form.username.data, email=form.email.data, role='user')
-        new_user.set_password(form.password.data)
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Вы успешно зарегистрировались!', category='alert-success')
-        return redirect(url_for('user.login'))
+        user_cust_inn = form.cust_inn.data
+        cust_id = get_id_Soldto_byINN(user_cust_inn)
+        if cust_id:
+            new_user = User(username=form.username.data, 
+                                        email=form.email.data, 
+                                        role='user',
+                                        comp_id=cust_id)
+            new_user.set_password(form.password.data)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Вы успешно зарегистрировались!', category='alert-success')
+            return redirect(url_for('user.login'))
+        else:
+            flash('Такая компания не найдена, попробуйте снова!', category='alert-danger')
+            return redirect(url_for('user.register'))
     else:
         for field, errors in form.errors.items():
             for error in errors:
@@ -74,7 +85,7 @@ def process_reg():
 @blueprint.before_request
 def before_request():
     if current_user.is_authenticated:
-        current_user.last_seen = datetime.utcnow()
+        current_user.last_visit = datetime.utcnow()
         db.session.commit()
 
 
