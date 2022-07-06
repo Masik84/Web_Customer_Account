@@ -1,17 +1,14 @@
 import csv, os
 from datetime import datetime
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
-from werkzeug.utils import secure_filename
 import pandas as pd
-import numpy as np
-import urllib.request
-from xml.dom import minidom
+from sqlalchemy.exc import SQLAlchemyError
 
-from webapp.config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
-from webapp.customer.views import get_id_Soldto_byINN, get_id_Soldto_bySoldto
+from webapp.config import UPLOAD_FOLDER
+from webapp.customer.views import get_id_Soldto_byINN, get_id_Soldto_bySoldto, print_error
 from webapp.db import db
 from webapp.admin.forms import AdminRegistrationForm, AdminUserUpdateForm
-from webapp.admin.models import FX_rate
+from webapp.admin.models import CurrencyName, FX_rate
 from webapp.user.models import User
 from webapp.user.decorators import admin_required
 
@@ -19,19 +16,9 @@ from webapp.user.decorators import admin_required
 blueprint = Blueprint('admin', __name__)
 
 
-date_from = '01/01/2020'
-date_to = datetime.today().strftime('%d/%m/%Y')
-usd_id = 'R01235'
-eur_id = 'R01239'
 
-url_usd = f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1={date_from}&date_req2={date_to}&VAL_NM_RQ={usd_id}"
-url_eur = f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1={date_from}&date_req2={date_to}&VAL_NM_RQ={eur_id}"
-
-path = os.getcwd()
 now = datetime.today().strftime('%Y-%m-%d')
-xml_usd_file = os.path.join(UPLOAD_FOLDER, 'Exchange_rate_USD' + '_' + now + '.xml')
 fx_usd_file = os.path.join(UPLOAD_FOLDER, 'Exchange_rate_USD' + '_' + now + '.csv')
-xml_eur_file = os.path.join(UPLOAD_FOLDER, 'Exchange_rate_EUR' + '_' + now + '.xml')
 fx_eur_file = os.path.join(UPLOAD_FOLDER, 'Exchange_rate_EUR' + '_' + now + '.csv')
 
 
@@ -167,36 +154,68 @@ def user_delete():
 @blueprint.route("/fx_list")
 @admin_required
 def fx_page():
-    fx_data = FX_rate.query.order_by(FX_rate.FX_date).all()
+    fx_data = FX_rate.query.order_by(FX_rate.FX_date.desc(), FX_rate.Curr_id).limit(10)
+    flash('Exchange Rates updated successfully!', category='alert-success')
     return render_template("admin/fx_rate.html", fx_data=fx_data)
 
 
-@blueprint.route("/update_fx")
+@blueprint.route("/fx_update")
 @admin_required
-def update_fx_usd():
-    webFile = urllib.request.urlopen(url_usd)
-    data = webFile.read()
-    with open(xml_usd_file, "wb") as localFile:
-        localFile.write(data)
-        webFile.close()
-
-    doc = minidom.parse(xml_usd_file)
-    root = doc.getElementsByTagName("ValCurs")[0]
-
-    currency = doc.getElementsByTagName("ValCurs")
-
-    with open(fx_usd_file,"w") as out:
-        for rate in currency:
-            item = rate.getElementsByTagName('Record')
-            sid = item[0].attributes['Id'].value
-            date = item[0].attributes['Date'].value
-            nominal = rate.getElementsByTagName("Nominal")[0]
-            value = rate.getElementsByTagName("Value")[0]
-
-            str = "{0}; {1}; {2}; {3}; {4} \n".format(
-                date, sid, 'USD', 
-                nominal.firstChild.data,
-                value.firstChild.data, False)
-
-            out.write(str)
+def exchange_update():
+    get_fx_from_cbr()
+    read_csv_currency(fx_usd_file)
+    read_csv_currency(fx_eur_file)
     return redirect(url_for('admin.fx_page'))
+
+
+def get_fx_from_cbr():
+    date_from = '01/01/2020'
+    date_to = datetime.today().strftime('%d/%m/%Y')
+    usd_id = 'R01235'
+    eur_id = 'R01239'
+
+    url_usd = f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1={date_from}&date_req2={date_to}&VAL_NM_RQ={usd_id}"
+    url_eur = f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1={date_from}&date_req2={date_to}&VAL_NM_RQ={eur_id}"
+
+    fx_usd_df = pd.read_xml(url_usd)
+    fx_usd_df['Value'] = [x.replace(',', '.') for x in fx_usd_df['Value']]
+    fx_usd_df.to_csv(fx_usd_file, sep=';', encoding='utf-8', index=False, header=False)
+
+    fx_eur_df = pd.read_xml(url_eur)
+    fx_eur_df['Value'] = [x.replace(',', '.') for x in fx_eur_df['Value']]
+    fx_eur_df.to_csv(fx_eur_file, sep=';', encoding='utf-8', index=False, header=False)
+
+
+def read_csv_currency(filename):
+    with open(filename, 'r', encoding='utf-8') as f:
+        fields = ['Date', 'Curr_code', 'Nominal', 'Rate']
+        reader = csv.DictReader(f, fields, delimiter=';')
+        
+        data_for_upload = []
+        for row in reader:
+            row['Date'] = datetime.strptime(row['Date'], '%d.%m.%Y')
+            data_exists = FX_rate.query.filter(FX_rate.FX_date == row['Date'], FX_rate.Curr_id == get_curr_id(row['Curr_code'])).count()
+            if data_exists == 0:
+                data = {'FX_date': row['Date'], 
+                                'Curr_id': get_curr_id(row['Curr_code']),
+                                'Nominal': row['Nominal'],
+                                'Rate': float(row['Rate']),}
+                data_for_upload.append(data)
+        db.session.bulk_insert_mappings(FX_rate, data_for_upload)
+        try:
+            db.session.commit()
+        except SQLAlchemyError as e:
+            print_error(data, "Ошибка целостности данных: {}", e)
+            db.session.rollback()
+            raise
+        except ValueError as e:
+            print_error(data, "Неправильный формат данных: {}", e)
+            db.session.rollback()
+            raise
+
+
+def get_curr_id(curr_code):
+    db_data = CurrencyName.query.filter(CurrencyName.Curr_code == curr_code).first()
+    curr_id = db_data.id
+
+    return curr_id

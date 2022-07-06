@@ -1,10 +1,10 @@
 from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relationship
 
-from webapp.db import db
+from db import Base
 
 
-class CurrencyName(db.Model):
+class CurrencyName(Base):
     __tablename__ = 'Currency'
 
     id = Column(Integer, primary_key=True)
@@ -12,7 +12,7 @@ class CurrencyName(db.Model):
     Curr_name = Column(String)
 
 
-class FX_rate(db.Model):
+class FX_rate(Base):
     __tablename__ = 'FX_rate'
 
     id = Column(Integer, primary_key=True)

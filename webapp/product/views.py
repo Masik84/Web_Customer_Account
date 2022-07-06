@@ -79,17 +79,16 @@ def update_products():
 
 def run_product_func():
     prod_data = read_csv_product(prod_file)
-    # read_csv_plant(plant_file)
-    # read_csv_producers(plant_file)
-    # read_csv_ed(ed_file)
+    read_csv_plant(plant_file)
+    read_csv_producers(plant_file)
+    read_csv_ed(ed_file)
 
-    # save_BO(prod_data)
-    # save_Status(prod_data)
-    # save_ProdSubClass(prod_data)
-    # save_Family(prod_data)
-    # save_SalProducts(prod_data)
+    save_BO(prod_data)
+    save_Status(prod_data)
+    save_ProdSubClass(prod_data)
+    save_Family(prod_data)
+    save_SalProducts(prod_data)
     save_Materials(prod_data)
-
 
 
 def convert_file(filename):

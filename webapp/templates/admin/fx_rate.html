@@ -10,7 +10,7 @@
 
 <div class="row" blank_row></div>
 
-<a href="{{ url_for('admin.update_fx_usd') }}" class="btn">Update USD Rates</a>
+<a href="{{ url_for('admin.exchange_update') }}" class="btn">Update Exchange Rates</a>
 
 
 <div class="row" blank_row></div>
@@ -28,7 +28,7 @@
         {% for fx in fx_data %}
         <tr>
           <td> <a>{{ fx.FX_date }}</a></td>
-          <td>{{ fx.Curr_Name }}</td>
+          <td>{{ fx.Curr_table.Curr_name }}</td>
           <td>{{ fx.Nominal }}</td>
           <td>{{ fx.Rate }}</td>
         </tr>
