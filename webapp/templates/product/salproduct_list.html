@@ -22,10 +22,10 @@
       <tbody>
         {% for sal_prod in sal_prod_data %}
         <tr>
-          <td> <a>{{ sal_prod.Sal_Prod_Code }}</a></td>
+          <td>{{ sal_prod.Sal_Prod_Code }}</td>
           <td>{{ sal_prod.Sal_Prod_Name }}</td>
-          <td>{{ sal_prod.Family_Code}}</td>
-          <td>{{ sal_prod.Sub_Class }}</td>
+          <td>{{ sal_prod.Family_Table.Family_Code}} ({{ sal_prod.Family_Table.Family_Name }})</td>
+          <td>{{ sal_prod.Family_Table.Sub_Class.Sub_Class }} ({{ sal_prod.Family_Table.Sub_Class.Sub_Class_Name }})</td>
         </tr>
         {% endfor %}
 </table>

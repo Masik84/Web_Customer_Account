@@ -1,11 +1,10 @@
-import csv, os
 from datetime import datetime
-from flask import Blueprint, abort, render_template, request, flash, redirect, url_for
-from flask_login import current_user
-from werkzeug.utils import secure_filename
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from sqlalchemy.exc import SQLAlchemyError
-import pandas as pd
+from werkzeug.utils import secure_filename
+import csv, os
 import numpy as np
+import pandas as pd
 
 from webapp.config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
 from webapp.db import db
@@ -23,31 +22,34 @@ plant_file = os.path.join(UPLOAD_FOLDER, 'Plant' + '_' + now + '.csv')
 
 ################################################################################
 @blueprint.route("/products")
+@admin_required
 def products_page():
-    if current_user.is_anonymous or not current_user.is_admin:
-        abort(404, "Page not found")
     return render_template("product/products.html")
 
 
 @blueprint.route('/materials')
+@admin_required
 def materials_page():
     material_data = Materials.query.order_by(Materials.Material_Name).all()
     return render_template("product/material_list.html", material_data=material_data)
 
 
 @blueprint.route('/sal_product')
+@admin_required
 def sal_prod_page():
     sal_prod_data = SalProducts.query.order_by(SalProducts.Sal_Prod_Name).all()
     return render_template("product/salproduct_list.html", sal_prod_data=sal_prod_data)
 
 
 @blueprint.route('/product_family')
+@admin_required
 def family_page():
     family_data = ProdFamily.query.order_by(ProdFamily.Family_Name).all()
     return render_template("product/prodfamily_list.html", family_data=family_data)
 
 
 @blueprint.route('/product_subclass')
+@admin_required
 def subclass_page():
     subclass_data = ProdSubClass.query.order_by(ProdSubClass.Sub_Class_Name).all()
     return render_template("product/prodsubclass_list.html", subclass_data=subclass_data)
@@ -74,7 +76,6 @@ def update_products():
             flash("Product's Data Uploaded Successfully!", category='alert-success')
             return redirect(url_for('products.products_page'))
     return redirect(url_for('admin.admin_index'))
-
 
 
 def run_product_func():

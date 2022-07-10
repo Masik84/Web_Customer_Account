@@ -2,9 +2,11 @@ import csv, os
 from datetime import datetime
 from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 import pandas as pd
+import requests
 from sqlalchemy.exc import SQLAlchemyError
 
 from webapp.config import UPLOAD_FOLDER
+from webapp.customer.models import Customers
 from webapp.customer.views import get_id_Soldto_byINN, get_id_Soldto_bySoldto, print_error
 from webapp.db import db
 from webapp.admin.forms import AdminRegistrationForm, AdminUserUpdateForm
@@ -21,12 +23,13 @@ now = datetime.today().strftime('%Y-%m-%d')
 fx_usd_file = os.path.join(UPLOAD_FOLDER, 'Exchange_rate_USD' + '_' + now + '.csv')
 fx_eur_file = os.path.join(UPLOAD_FOLDER, 'Exchange_rate_EUR' + '_' + now + '.csv')
 
+usd_id = 'R01235'
+eur_id = 'R01239'
 
 @blueprint.route('/admin/')
 @admin_required
 def admin_index():
-    title = 'Control Panel'
-    return render_template('admin/index.html', page_title=title)
+    return render_template('admin/index.html')
 
 
 ################################################################################
@@ -155,7 +158,6 @@ def user_delete():
 @admin_required
 def fx_page():
     fx_data = FX_rate.query.order_by(FX_rate.FX_date.desc(), FX_rate.Curr_id).limit(10)
-    flash('Exchange Rates updated successfully!', category='alert-success')
     return render_template("admin/fx_rate.html", fx_data=fx_data)
 
 
@@ -165,23 +167,62 @@ def exchange_update():
     get_fx_from_cbr()
     read_csv_currency(fx_usd_file)
     read_csv_currency(fx_eur_file)
+    flash('Exchange Rates updated successfully!', category='alert-success')
     return redirect(url_for('admin.fx_page'))
 
 
+def get_usd_last_date():
+    last_date = FX_rate.query.order_by(FX_rate.FX_date.desc()).filter(FX_rate.Curr_id == get_curr_id(usd_id)).first()
+
+    if last_date is None:
+        last_date = '01/01/2020'
+    else:
+        last_date = last_date.FX_date
+        last_date = datetime.strftime(last_date, '%d/%m/%Y')
+
+    return last_date
+
+def get_eur_last_date():
+    last_date = FX_rate.query.order_by(FX_rate.FX_date.desc()).filter(FX_rate.Curr_id == get_curr_id(eur_id)).first()
+
+    if last_date is None:
+        last_date = '01/01/2020'
+    else:
+        last_date = last_date.FX_date
+        last_date = datetime.strftime(last_date, '%d/%m/%Y')
+
+    return last_date
+
+
+def get_html(url):
+    headers = {
+        'User_Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36 OPR/87.0.4390.36 (Edition Yx 05) Firefox/102.0'
+    }
+    try:
+        result = requests.get(url, headers = headers)
+        result.raise_for_status()          # обязательно вносить строку, чтобы исключить ошибки сервера
+        return result.text
+    except(requests.RequestException, ValueError):
+        print('Сетевая ошибка')
+        return False
+
+
 def get_fx_from_cbr():
-    date_from = '01/01/2020'
+    usd_date_from = get_usd_last_date()
+    eur_date_from = get_eur_last_date()
     date_to = datetime.today().strftime('%d/%m/%Y')
-    usd_id = 'R01235'
-    eur_id = 'R01239'
 
-    url_usd = f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1={date_from}&date_req2={date_to}&VAL_NM_RQ={usd_id}"
-    url_eur = f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1={date_from}&date_req2={date_to}&VAL_NM_RQ={eur_id}"
+    url_usd = f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1={usd_date_from}&date_req2={date_to}&VAL_NM_RQ={usd_id}"
+    url_eur = f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1={eur_date_from}&date_req2={date_to}&VAL_NM_RQ={eur_id}"
 
-    fx_usd_df = pd.read_xml(url_usd)
+    usd_r = get_html(url_usd)
+    eur_r = get_html(url_eur)
+
+    fx_usd_df = pd.read_xml(usd_r)
     fx_usd_df['Value'] = [x.replace(',', '.') for x in fx_usd_df['Value']]
     fx_usd_df.to_csv(fx_usd_file, sep=';', encoding='utf-8', index=False, header=False)
 
-    fx_eur_df = pd.read_xml(url_eur)
+    fx_eur_df = pd.read_xml(eur_r)
     fx_eur_df['Value'] = [x.replace(',', '.') for x in fx_eur_df['Value']]
     fx_eur_df.to_csv(fx_eur_file, sep=';', encoding='utf-8', index=False, header=False)
 

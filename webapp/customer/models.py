@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, Numeric, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from webapp.db import db
@@ -25,6 +25,17 @@ class PaymentTerms(db.Model):
 
     def __repr__(self):
         return self.PT_description
+
+
+class PriceHierarchy(db.Model):
+    __tablename__ = 'PriceHierarchy'
+
+    id = Column(Integer, primary_key=True)
+    Code = Column(Integer, unique=True, nullable=False)
+    Name = Column(String)
+
+    def __repr__(self):
+        return f'PriceHierarchy Name {self.Name}'
 
 
 class STLs(db.Model):
@@ -99,11 +110,13 @@ class Customers(db.Model):
     AM_id = Column(Integer, ForeignKey(Managers.id), index=True)
     Addr_id = Column(Integer, ForeignKey(Addresses.id), index=True)
     PayTerm_id = Column(Integer, ForeignKey(PaymentTerms.id), index=True)
+    PriceHier_id = Column(Integer, ForeignKey(PriceHierarchy.id), index=True)
     is_deleted = Column(Boolean, default=False)
 
     AM_Table = relationship('Managers')
     Addr_Table = relationship('Addresses')
     PayTerm_Table = relationship("PaymentTerms")
+    PriceHier_Table = relationship('PriceHierarchy')
 
     def __repr__(self):
         return f'Company id: {self.id}, name: {self.SoldTo_Name}'

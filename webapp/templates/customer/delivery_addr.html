@@ -12,23 +12,23 @@
 <table class="table table-hover">
     <thead>
         <tr>
-          <th scope="col">Ship-To</th>
-          <th scope="col">Ship-To Name</th>
-          <th scope="col">AM Name</th>
-          <th scope="col">STL Name</th>
-          <th scope="col">Address</th>
-          <th scope="col">POD</th>
+            <th scope="col">Ship-To</th>
+            <th scope="col">Ship-To Name</th>
+            <th scope="col">AM Name</th>
+            <th scope="col">STL Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">POD</th>
         </tr>
       </thead>
       <tbody>
         {% for addr in del_addr_data %}
         <tr>
-          <td> <a>{{ addr.ShipTo }}</a></td>
-          <td>{{ addr.ShipTo_Name }}</td>
-          <td>{{ addr.AM_Table.AM_name}}</td>
-          <td>{{ addr.AM_Table.STL_Table.STL }}</td>
-          <td>{{ addr.Addr_Table }}</td>
-          <td>{{ addr.POD }}</td>
+            <td>{{ addr.ShipTo }}</td>
+            <td>{{ addr.ShipTo_Name }}</td>
+            <td>{{ addr.AM_Table.AM_name}}</td>
+            <td>{{ addr.AM_Table.STL_Table.STL }}</td>
+            <td>{{ addr.Addr_Table }}</td>
+            <td>{{ addr.POD }}</td>
         </tr>
         {% endfor %}
 </table>

@@ -447,10 +447,13 @@ def save_Soldto(data):
     return soldto_unique
 
 
-def get_id_Soldto_bySoldto(SoldTo):
-    db_data = Customers.query.filter(Customers.SoldTo == SoldTo).first()
-    soldto_id = db_data.id
-
+def get_id_Soldto_bySoldto(SoldTo_find):
+    if SoldTo_find !='nan':
+        SoldTo_find = int(float(SoldTo_find))
+        db_data = Customers.query.filter(Customers.SoldTo == SoldTo_find).first()
+        soldto_id = db_data.id
+    else:
+        soldto_id = None
     return soldto_id
 
 
@@ -507,9 +510,13 @@ def save_Shipto(data):
     return shipto_unique
 
 
-def det_id_Shipto(ShipTo):
-    db_data = ShipTos.query.filter(ShipTos.ShipTo == ShipTo).first()
-    shipto_id = db_data.id
+def get_id_Shipto(ShipTo_find):
+    if ShipTo_find !='nan':
+        ShipTo_find = int(float(ShipTo_find))
+        db_data = ShipTos.query.filter(ShipTos.ShipTo == ShipTo_find).first()
+        shipto_id = db_data.id
+    else:
+        shipto_id = None
 
     return shipto_id
 

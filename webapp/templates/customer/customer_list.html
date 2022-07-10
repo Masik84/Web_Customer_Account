@@ -21,32 +21,34 @@
 
 <div class="row" blank_row></div>
 
-<table class="table table-hover">
+<table class="table table-striped table-hover">
     <thead>
         <tr>
-          <th scope="col">Sold-To</th>
-          <th scope="col">Sold-To Name</th>
-          <th scope="col">AM Name</th>
-          <th scope="col">STL Name</th>
-          <th scope="col">Tax code 1 (INN)</th>
-          <th scope="col">Tax code 2 (KPP)</th>
-          <th scope="col">Pay Term</th>
-          <th scope="col">Address</th>
+            <th scope="col">Sold-To</th>
+            <th scope="col">Sold-To Name</th>
+            <th scope="col">AM Name</th>
+            <th scope="col">STL Name</th>
+            <th scope="col">Tax code 1 (INN)</th>
+            <th scope="col">Tax code 2 (KPP)</th>
+            <th scope="col">Pay Term</th>
+            <th scope="col">Address</th>
         </tr>
       </thead>
       <tbody>
         {% for cust in cust_data %}
         <tr>
-          <td> <a>{{ cust.SoldTo }}</a></td>
-          <td>{{ cust.SoldTo_Name }}</td>
-          <td>{{ cust.AM_Table.AM_name}}</td>
-          <td>{{ cust.AM_Table.STL_Table.STL }}</td>
-          <td>{{ cust.INN }}</td>
-          <td>{{ cust.KPP }}</td>
-          <td>{{ cust.PayTerm_Table.PT_description }}</td>
-          <td>{{ cust.Addr_Table }}</td>
+            <td>{{ cust.SoldTo }}</td>
+            <td>{{ cust.SoldTo_Name }}</td>
+            <td>{{ cust.AM_Table.AM_name}}</td>
+            <td>{{ cust.AM_Table.STL_Table.STL }}</td>
+            <td>{{ cust.INN }}</td>
+            <td>{{ cust.KPP }}</td>
+            <td>{{ cust.PayTerm_Table.PT_description }}</td>
+            <td>{{ cust.Addr_Table }}</td>
         </tr>
         {% endfor %}
 </table>
+
+
 
 {% endblock %}

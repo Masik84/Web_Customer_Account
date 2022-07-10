@@ -1,14 +1,11 @@
+from datetime import datetime
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from flask_login import current_user, login_required, login_user, logout_user, LoginManager
 
-from datetime import datetime
 from webapp.customer.views import get_id_Soldto_byINN
-
-# from webapp import user_id
 from webapp.db import db
 from webapp.user.forms import LoginForm, RegistrationForm, UserDataUpdateForm
 from webapp.user.models import User
-from webapp.customer.models import Customers
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 

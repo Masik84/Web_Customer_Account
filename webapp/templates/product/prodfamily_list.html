@@ -22,9 +22,9 @@
         
         {% for family in family_data %}
         <tr>
-          <td> <a>{{ family.Family_Code }}</a></td>
+          <td>{{ family.Family_Code }}</td>
           <td>{{ family.Family_Name }}</td>
-          <td>{{ family.Sub_Class}}</td>
+          <td>{{ family.Sub_Class.Sub_Class }} ({{ family.Sub_Class.Sub_Class_Name }})</td>
 
         </tr>
         {% endfor %}

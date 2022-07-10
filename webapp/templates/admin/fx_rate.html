@@ -27,7 +27,7 @@
       <tbody>
         {% for fx in fx_data %}
         <tr>
-          <td> <a>{{ fx.FX_date }}</a></td>
+          <td> <a>{{ fx.FX_date.strftime('%d.%m.%Y') }}</a></td>
           <td>{{ fx.Curr_table.Curr_name }}</td>
           <td>{{ fx.Nominal }}</td>
           <td>{{ fx.Rate }}</td>

@@ -10,6 +10,7 @@ app = create_app()
 with app.app_context():
     username = input('Введите имя пользователя: ')
     admin_email = input('Введите email: ')
+    admin_comp = 1
 
     if User.query.filter(User.username == username).count():
         print('Такой пользователь уже есть')
@@ -24,7 +25,7 @@ with app.app_context():
     if not password == password2:
         sys.exit(0)
 
-    new_user = User(username=username, role='admin', email = admin_email)
+    new_user = User(username=username, role='admin', email = admin_email, comp_id=admin_comp)
     new_user.set_password(password)
 
     db.session.add(new_user)

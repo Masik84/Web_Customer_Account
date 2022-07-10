@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row" blank_row>
         <div class="col-12">
-            Admin Panel
+            <h1>Admin Panel</h1>
         </div>
     </div>
 
@@ -21,6 +21,19 @@
 
         </div>
     </div>
+
+    <div class="row" blank_row></div>
+
+    <div class="row" btn_row>
+        <div class="col-12">
+
+                <a href="{{ url_for('prices.prices_page') }}" class="btn btn-outline-secondary">Prices</a>
+                <a href="{{ url_for('orders.orders_page') }}" class="btn btn-outline-secondary">Orders</a>
+
+        </div>
+    </div>
+
+
 </div>
 
 
