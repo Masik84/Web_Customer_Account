@@ -31,5 +31,5 @@ class AdminUserUpdateForm(FlaskForm):
     useremail = StringField("User Email", validators=[DataRequired()], render_kw={"class": "form-control"})
     userrole = StringField("User Role", validators=[DataRequired()], render_kw={"class": "form-control"})
     cust_soldto = StringField('Company Code', validators=[DataRequired()], render_kw={"class": "form-control"})
-    del_flag = BooleanField('Deletion Flag', render_kw={"class": "form-check"})
+    del_flag = SelectField('Deletion Flag', validators=[DataRequired()], choices=[("1", "active"), ("2", "deleted")], render_kw={"class": "form-control"})
     update = SubmitField('Update', render_kw={"class": "btn btn-primary"})

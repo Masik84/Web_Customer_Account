@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     password = Column(String(128))
     role = Column(String(10), index=True)
     email = Column(String(50))
-    comp_id = Column(Integer, ForeignKey(Customers.id), index=True)
+    comp_id = Column(Integer, ForeignKey(Customers.id), index=True, nullable = True)
     created_on = Column(db.DateTime, default=datetime.utcnow)
     last_visit = Column(db.DateTime, default=datetime.utcnow)
     is_deleted = Column(db.Boolean, default=False)

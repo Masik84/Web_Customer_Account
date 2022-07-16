@@ -1,10 +1,8 @@
-from enum import unique
-from numpy import integer
-from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, Numeric, String
+from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relationship
 
 from webapp.db import db
-from webapp.customer.models import Customers, Managers, ShipTos
+from webapp.customer.models import Customers, ShipTos
 from webapp.product.models import Materials, Plants
 
 
@@ -12,8 +10,8 @@ from webapp.product.models import Materials, Plants
 class OrderStatus(db.Model):
     __tablename__ = 'OrderStatus'
 
-    id = Column(integer, primary_key=True)
-    Ord_Status = Column(String, index=True, unique=True, nullable=False)
+    id = Column(Integer, primary_key=True)
+    Ord_Status = Column(String, unique=True, nullable=False)
 
     def __repr__(self):
         return f'Status {self.Ord_Status}'
@@ -23,7 +21,7 @@ class OrderStatus(db.Model):
 class OrderType(db.Model):
     __tablename__ = 'OrderType'
 
-    id = Column(integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     Type_code = Column(String, index=True, unique=True, nullable=False)
     Type_Name = Column(String)
 
@@ -35,7 +33,7 @@ class OrderType(db.Model):
 class InvoiceType(db.Model):
     __tablename__ = 'InvoiceType'
 
-    id = Column(integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     Type_code = Column(String, index=True, unique=True, nullable=False)
     Type_Name = Column(String)
 
@@ -118,6 +116,8 @@ class Invoices(db.Model):
 
 
 class InvoiceLines(db.Model):
+    __tablename__ = 'InvoiceLines'
+
     id = Column(Integer, primary_key=True)
     Invoice_id = Column(Integer, ForeignKey(Invoices.id), index=True, nullable=False)
     Pricing_date = Column(Date, nullable=False)
@@ -127,7 +127,7 @@ class InvoiceLines(db.Model):
     Ord_Status_id = Column(Integer, ForeignKey(OrderStatus.id))
     Qty = Column(Numeric)
 
-    Invoice_table = relationship('Orders')
+    Invoice_table = relationship('Invoices')
     Material_table = relationship('Materials')
     Status_table = relationship('OrderStatus')
 

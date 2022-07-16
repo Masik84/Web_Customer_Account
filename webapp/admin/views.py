@@ -52,6 +52,7 @@ def register():
 @admin_required
 def process_reg():
     form = AdminRegistrationForm()
+
     if form.validate_on_submit():
         user_name = form.username.data
         user_email = form.email.data
@@ -59,11 +60,13 @@ def process_reg():
         user_cust_inn = form.cust_inn.data
 
         if user_role == 1:
-            new_user = User(username=user_name, email=user_email, role='admin')
+            new_user = User(username=user_name, 
+                                            email=user_email, 
+                                            role='admin')
             new_user.set_password(form.password.data)
             db.session.add(new_user)
             db.session.commit()
-            flash('Вы успешно зарегистрировали пользователя!', category='alert-success')
+            flash('Вы успешно зарегистрировали админа!', category='alert-success')
             return redirect(url_for('admin.users_page'))
         else:
             cust_id = get_id_Soldto_byINN(user_cust_inn)
@@ -108,7 +111,7 @@ def user_update(user_id):
 
     if form.validate_on_submit():
         user_to_update = User.query.filter(User.id == user_id).first()
-        if request.form.get("Active"):
+        if form.del_flag.data == 1:
 
             user_to_update.id = request.form["user_id"]
             user_to_update.username = request.form["username"]

@@ -13,7 +13,7 @@ from webapp.price.views import blueprint as price_blueprint
 from webapp.product.views import blueprint as product_blueprint
 from webapp.user.models import User
 from webapp.user.views import blueprint as user_blueprint
-from webapp.order.views import blueprint as oder_blueprint
+from webapp.order.views import blueprint as order_blueprint
 
 
 def create_app():
@@ -33,7 +33,7 @@ def create_app():
     app.register_blueprint(customer_blueprint)
     app.register_blueprint(product_blueprint)
     app.register_blueprint(price_blueprint)
-    app.register_blueprint(oder_blueprint)
+    app.register_blueprint(order_blueprint)
 
     # if not app.debug:
     #     if not os.path.exists('logs'):

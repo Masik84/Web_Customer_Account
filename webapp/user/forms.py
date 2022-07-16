@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, StringField, PasswordField, SubmitField, HiddenField
+from wtforms import BooleanField, StringField, PasswordField, SubmitField, HiddenField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length
 
 from webapp.user.models import User
@@ -14,6 +14,8 @@ class LoginForm(FlaskForm):
 
     def get_id(self):
         return str(self.__user['id'])
+
+        
 
 class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={"class": "form-control"})

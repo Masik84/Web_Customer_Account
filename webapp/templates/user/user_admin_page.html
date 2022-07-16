@@ -42,21 +42,14 @@
                     {{ form.cust_soldto(value=user.customer_table.SoldTo) }}
                 </div>
 
-                {% if  user.is_deleted == False %}
-                    <div class="form-check">
-                        {{ form.del_flag.label }}<br>
-                        <input class="form-check-input" type="checkbox" value="" name="Active">
-                        <label class="form-check-label" for="flexCheckDefault">Активный</label>
-                    </div>
-
-                {% else %}
-                    <div class="form-check">
-                        {{ form.del_flag.label }}<br>
-                        <input class="form-check-input" type="checkbox" value="" name="Inactive" checked>
-                        <label class="form-check-label" for="flexCheckChecked">Не Активный</label>
-                    </div>
-
-                {% endif %}
+                <div class="form-group">
+                    {{ form.del_flag.label }}<br>
+                    {% if user.is_deleted == False %}
+                        {{ form.del_flag(value = 'active') }}
+                    {% elif user.is_deleted == True %}
+                        {{ form.del_flag(value = 'deleted') }}
+                    {%  endif %}
+                </div>
 
 
                 <br>

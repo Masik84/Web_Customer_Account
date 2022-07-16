@@ -8,7 +8,6 @@ import numpy as np
 import pandas as pd
 
 from webapp.config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
-from webapp.customer.models import Customers, Addresses, YFRP, LoB, ShipTos, Managers, STLs, PaymentTerms
 from webapp.customer.views import get_id_Shipto, get_id_Soldto_bySoldto
 from webapp.db import db
 from webapp.order.models import Deliveries, InvoiceType, OrderStatus, OrderType, Orders
@@ -68,9 +67,9 @@ def run_sales_func():
     update_delivery(order_data)
     update_orders(order_data)
 
-    read_csv_deliv_inv(invoices_file)
-    read_csv_orders(orders_file)
-    read_csv_invoices(invoices_file)
+    # read_csv_deliv_inv(invoices_file)
+    # read_csv_orders(orders_file)
+    # read_csv_invoices(invoices_file)
 
 
 def convert_file(filename):
@@ -204,7 +203,6 @@ def get_id_OrderStatus(status_to_find):
     order_status_id = db_data.id
 
     return order_status_id
-
 
 
 def read_csv_orders(filename):

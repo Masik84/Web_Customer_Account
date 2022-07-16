@@ -25,7 +25,9 @@ with app.app_context():
     if not password == password2:
         sys.exit(0)
 
-    new_user = User(username=username, role='admin', email = admin_email, comp_id=admin_comp)
+    new_user = User(username=username, 
+                                    role='admin', 
+                                    email = admin_email)
     new_user.set_password(password)
 
     db.session.add(new_user)
