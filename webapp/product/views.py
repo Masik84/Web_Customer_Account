@@ -42,8 +42,10 @@ def materials_page(page):
     if search_material:
         material_data = Materials.query.filter(Materials.Material_Name.contains(search_material)).paginate(per_page=pages, error_out=False)
 
-    # elif search_salprod:
-    #     salprod = SalProducts.query.filter(SalProducts.Sal_Prod_Name.contains(search_salprod)).all()
+    elif search_salprod:
+        salprod = SalProducts.query.filter(SalProducts.Sal_Prod_Name.contains(search_salprod)).all()
+        for sal in salprod:
+            material_data = Materials.query.filter(Materials.SalProduct_id == sal.id).paginate(per_page=pages, error_out=False)
     
     else:
         material_data = Materials.query.order_by(Materials.Material_Name.asc()).paginate(page, pages, error_out=False)
