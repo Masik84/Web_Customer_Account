@@ -5,61 +5,143 @@
 
 <h1>Material page</h1>
 <br>
-<a href="{{ url_for('products.products_page') }}" class="btn">Back</a>
+    <a href="{{ url_for('products.products_page') }}" class="btn">Back</a>
+<br>
 <br>
 
+<div class="row">
+    <div class="col-4">
+        <form action="" method="GET" autocomplete="off"> 
+            <div class="row">
+                <div class="col-6">
+                    <input type="search" class="form-control" name="search_material" placeholder="Enter keyword"/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" align-left>
+                    <input type="submit" value="Search Material" class="form-control btn btn-primary " name=""> 
+                </div>
+            </div>
+        </form> 
+     </div>
 
+     <div class="col-4">
+        <form action="" method="GET" autocomplete="off"> 
+            <div class="row">
+                <div class="col-6">
+                    <input type="search" class="form-control" name="search_salprod" placeholder="Enter keyword"/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" align-left>
+                    <input type="submit" value="Search Salesble Prod" class="form-control btn btn-primary " name=""> 
+                </div>
+            </div>
+        </form> 
+     </div>
+
+     <div class="col-4">
+        <form action="" method="GET" autocomplete="off"> 
+            <div class="row">
+                <div class="col-6">
+                    <input type="search" class="form-control" name="search_family" placeholder="Enter keyword"/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" align-left>
+                    <input type="submit" value="Search Family" class="form-control btn btn-primary " name=""> 
+                </div>
+            </div>
+        </form> 
+     </div>
+
+</div>
+<div class="row"></div>
 <br>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">Material Name</th>
+                    <th scope="col">Sal Prod Name</th>
+                    <th scope="col">Family Name</th>
+                    <th scope="col">Sub Class Name</th>
+                    <th scope="col">LoB</th>
+                    <th scope="col">Density</th>
+                    <th scope="col">Net Weight</th>
+                    <th scope="col">ED type</th>
+                    <th scope="col">Pack type</th>
+                    <th scope="col">BO type</th>
+                    <th scope="col">Pack Vol</th>
+                    <th scope="col">UoM</th>
+                    <th scope="col">Plant/Producer</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">BO Location</th>
+                    <th scope="col">Production</th>
+                    <th scope="col">Comment</th>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">Code</th>
-            <th scope="col">Material Name</th>
-            <th scope="col">Sal Prod Name</th>
-            <th scope="col">Family Name</th>
-            <th scope="col">Sub Class Name</th>
-            <th scope="col">LoB</th>
-            <th scope="col">Density</th>
-            <th scope="col">Net Weight</th>
-            <th scope="col">ED type</th>
-            <th scope="col">Pack type</th>
-            <th scope="col">BO type</th>
-            <th scope="col">Pack Vol</th>
-            <th scope="col">UoM</th>
-            <th scope="col">Plant</th>
-            <th scope="col">Producer</th>
-            <th scope="col">Status</th>
-            <th scope="col">BO Location</th>
-            <th scope="col">Production</th>
-            <th scope="col">Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for material in material_data.items %}
+                <tr>
+                    <td>{{ material.Material_code }}</td>
+                    <td>{{ material.Material_Name }}</td>
+                    <td>{{ material.Sal_Prod_Table.Sal_Prod_Code}}</td>
+                    <td>{{ material.Sal_Prod_Table.Family_Table.Family_Code }}</td>
+                    <td>{{ material.Sal_Prod_Table.Family_Table.Sub_Class_table.Sub_Class}}</td>
+                    <td>{{ material.LoB }}</td>
+                    <td>{{ material.Density }}</td>
+                    <td>{{ material.Net_Weight }}</td>
+                    <td>{{ material.ED_type }}</td>
+                    <td>{{ material.Pack_type }}</td>
+                    <td>{{ material.BO_Table.BO_type }}</td>
+                    <td>{{ material.Pack_Vol }}</td>
+                    <td>{{ material.UoM }}</td>
+                    <td>{{ material.Plant_Table.Plant_Code }} / {{ material.Producer_Table.Producer_Code }}</td>
+                    <td>{{ material.Status_Table.Status_code }}</td>
+                    <td>{{ material.BO_Location }}</td>
+                    <td>{{ material.Production }}</td>
+                    <td>{{ material.Comment }}</td>
+                </tr>
+                {% endfor %}
+        </table>
 
-        </tr>
-      </thead>
-      <tbody>
-        {% for material in material_data %}
-        <tr>
-            <td>{{ material.Material_code }}</td>
-            <td>{{ material.Material_Name }}</td>
-            <td>{{ material.Sal_Prod_Table.Sal_Prod_Code}} ({{ material.Sal_Prod_Table.Sal_Prod_Name}})</td>
-            <td>{{ material.Sal_Prod_Table.Family_Table.Family_Code }}</td>
-            <td>{{ material.Sub_Class }}</td>
-            <td>{{ material.LoB }}</td>
-            <td>{{ material.Density }}</td>
-            <td>{{ material.Net_Weight }}</td>
-            <td>{{ material.ED_type }}</td>
-            <td>{{ material.Pack_type }}</td>
-            <td>{{ material.BO_Table.BO_type }}</td>
-            <td>{{ material.Pack_Vol }}</td>
-            <td>{{ material.UoM }}</td>
-            <td>{{ material.Plant_Table.Plant_Code }}</td>
-            <td>{{ material.Producer_Table.Producer_Code }}</td>
-            <td>{{ material.Status_Table.Status_code }}</td>
-            <td>{{ material.BO_Location }}</td>
-            <td>{{ material.Production }}</td>
-            <td>{{ material.Comment }}</td>
-        </tr>
-        {% endfor %}
-</table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if material_data.has_prev %}
+                    <li class="page-item"> <a class="page-link" href="{{ url_for('products.materials_page', page=material_data.prev_num) }}">Previous</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
+                {% endif %}
+
+                {% for page in material_data.iter_pages(left_edge=3, right_edge=3) %}
+
+                    {% if page %}
+                        {% if page==material_data.page %}
+                            <li class="page-item active"><a class="page-link" href="{{ url_for('products.materials_page', page=page) }}">{{ page }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="{{ url_for('products.materials_page', page=page) }}">{{ page }}</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li> 
+                    {% endif %}
+
+                {% endfor %}
+
+                {% if material_data.has_next %}
+                    <li class="page-item"> <a class="page-link" href="{{ url_for('products.materials_page', page=material_data.next_num) }}">Next</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
+                {% endif %}
+
+            </ul>
+        </nav>
+
+    </div>
+</div>
 
 {% endblock %}
+

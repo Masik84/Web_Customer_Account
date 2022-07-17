@@ -11,14 +11,16 @@
 <br>
 
 <br>
-<a href="{{ url_for('products.materials_page') }}" class="btn">Materials</a>
-
-<a href="{{ url_for('products.sal_prod_page') }}" class="btn">Saleable Prod</a>
-
-<a href="{{ url_for('products.family_page') }}" class="btn">Family Prod</a>
-
-<a href="{{ url_for('products.subclass_page') }}" class="btn">SubClass</a>
-
+<div class="nav-item dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+      Products
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" href="{{ url_for('products.materials_page') }}" class="btn">Materials</a></li>
+        <li><a class="dropdown-item" href="{{ url_for('products.sal_prod_page') }}" class="btn">Saleable Prod</a></li>
+        <li><a class="dropdown-item" href="{{ url_for('products.family_page') }}" class="btn">Family Prod</a></li>
+        <li><a class="dropdown-item" href="{{ url_for('products.subclass_page') }}" class="btn">SubClass</a></li>
+    </ul>
 <br>
 <br>
 <br>

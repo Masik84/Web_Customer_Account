@@ -44,11 +44,13 @@
 
                 <div class="form-group">
                     {{ form.del_flag.label }}<br>
-                    {% if user.is_deleted == False %}
-                        {{ form.del_flag(value = 'active') }}
-                    {% elif user.is_deleted == True %}
-                        {{ form.del_flag(value = 'deleted') }}
+
+                    {% if user.is_deleted %}
+                        {{ form.del_flag(value = 2) }}
+                    {% else%}
+                        {{ form.del_flag(value = 1) }}
                     {%  endif %}
+                    
                 </div>
 
 

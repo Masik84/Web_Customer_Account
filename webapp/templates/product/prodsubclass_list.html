@@ -11,20 +11,22 @@
 
 <br>
 
-<table class="table table-hover">
+
+<table class="table table-striped table-hover">
     <thead>
         <tr>
           <th scope="col">Code</th>
           <th scope="col">Sub Class Name</th>
         </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
         {% for subclass in subclass_data %}
         <tr>
-          <td> <a>{{ subclass.Sub_Class }}</a></td>
+          <td> {{ subclass.Sub_Class }}</a></td>
           <td>{{ subclass.Sub_Class_Name }}</td>
         </tr>
         {% endfor %}
+    </tbody>
 </table>
 
 {% endblock %}

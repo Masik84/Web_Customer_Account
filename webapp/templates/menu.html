@@ -11,7 +11,27 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Главная страница</a>
           </li>
+
+          {% if current_user.is_admin %}
+
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                Admin Panel
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{{ url_for('admin.users_page') }}">Users</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('admin.fx_page') }}">Exchange Rates</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('сustomer.customers_page') }}">Customers</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('сustomer.managers_page') }}">Managers</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('products.products_page') }}">Products</a></li>
+              </ul>
+          </li>
+          
+          {% endif %}
+
         </ul>
+
+
 
         <ul class="navbar-nav">
             {%  if current_user.is_authenticated %}

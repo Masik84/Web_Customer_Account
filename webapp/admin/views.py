@@ -101,7 +101,7 @@ def single_user(user_id):
     this_user = User.query.filter(User.id == user_id).first()
     if not this_user:
         abort(404)
-    return render_template("user/user_admin_page.html", user=this_user, form=form, action_link=f"/user_update/{user_id}" )
+    return render_template("user/user_admin_page.html", user=this_user, form=form)
 
 
 @blueprint.route('/user_update/<int:user_id>', methods=['POST'])
@@ -111,22 +111,16 @@ def user_update(user_id):
 
     if form.validate_on_submit():
         user_to_update = User.query.filter(User.id == user_id).first()
-        if form.del_flag.data == 1:
 
-            user_to_update.id = request.form["user_id"]
-            user_to_update.username = request.form["username"]
-            user_to_update.role = request.form["userrole"]
-            user_to_update.email = request.form["useremail"]
-            user_to_update.comp_id = get_id_Soldto_bySoldto(request.form['cust_soldto'])
-            user_to_update.is_deleted = False
-        else:
-            user_to_update.id = request.form["user_id"]
-            user_to_update.username = request.form["username"]
-            user_to_update.role = request.form["userrole"]
-            user_to_update.email = request.form["useremail"]
-            user_to_update.comp_id = get_id_Soldto_bySoldto(request.form['cust_soldto'])
+        user_to_update.id = request.form["user_id"]
+        user_to_update.username = request.form["username"]
+        user_to_update.role = request.form["userrole"]
+        user_to_update.email = request.form["useremail"]
+        user_to_update.comp_id = get_id_Soldto_bySoldto(request.form['cust_soldto'])
+        if request.form['del_flag'] == 2:
             user_to_update.is_deleted = True
-
+        else:
+            user_to_update.is_deleted = False
         db.session.commit()
 
         flash('User updated successfully', category='alert-success')

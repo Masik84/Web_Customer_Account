@@ -1,10 +1,10 @@
 from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relationship
 
-from webapp.db import db
+from db import Base
 
 
-class ED(db.Model):
+class ED(Base):
     __tablename__ = 'ED'
 
     id = Column(Integer, primary_key=True)
@@ -17,7 +17,7 @@ class ED(db.Model):
         return f'ED from {self.From} is {self.Rate} Rub per Tonne'
 
 
-class BOs(db.Model):
+class BOs(Base):
     __tablename__ = 'BOs'
 
     id = Column(Integer, primary_key=True)
@@ -28,7 +28,7 @@ class BOs(db.Model):
         return f'{self.BO_type}'
 
 
-class Plants(db.Model):
+class Plants(Base):
     __tablename__ = 'Plant'
 
     id = Column(Integer, primary_key=True)
@@ -40,7 +40,7 @@ class Plants(db.Model):
         return f'{self.Plant_Code}'
 
 
-class Producers(db.Model):
+class Producers(Base):
     __tablename__ = 'Producer'
 
     id = Column(Integer, primary_key=True)
@@ -52,7 +52,7 @@ class Producers(db.Model):
         return f'{self.Plant_Code}'
 
 
-class MaterialStatus(db.Model):
+class MaterialStatus(Base):
     __tablename__ = 'Status'
 
     id = Column(Integer, primary_key=True)
@@ -64,7 +64,7 @@ class MaterialStatus(db.Model):
         return f'{self.Status_descr}'
 
 
-class ProdSubClass(db.Model):
+class ProdSubClass(Base):
     __tablename__ = 'ProdSubClass'
 
     id = Column(Integer, primary_key=True)
@@ -82,7 +82,7 @@ class ProdSubClass(db.Model):
         }
 
 
-class ProdFamily(db.Model):
+class ProdFamily(Base):
     __tablename__ = 'ProdFamily'
 
     id = Column(Integer, primary_key=True)
@@ -97,7 +97,7 @@ class ProdFamily(db.Model):
         return f'{self.Family_Name}'
 
 
-class SalProducts(db.Model):
+class SalProducts(Base):
     __tablename__ = 'SalProducts'
 
     id = Column(Integer, primary_key=True)
@@ -112,7 +112,7 @@ class SalProducts(db.Model):
         return f'{self.Sal_Prod_Name}'
 
 
-class Materials(db.Model):
+class Materials(Base):
     __tablename__ = 'Materials'
 
     id = Column(Integer, primary_key=True)

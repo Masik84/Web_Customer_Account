@@ -1,4 +1,5 @@
 from datetime import datetime
+from operator import contains
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.utils import secure_filename
@@ -27,17 +28,50 @@ def products_page():
     return render_template("product/products.html")
 
 
-@blueprint.route('/materials')
+@blueprint.route('/materials', methods=["GET", "POST"], defaults={"page": 1})
+@blueprint.route('/materials/<int:page>', methods=["GET", "POST"])
 @admin_required
-def materials_page():
-    material_data = Materials.query.order_by(Materials.Material_Name).all()
+def materials_page(page):
+    search_material = request.args.get('search_material')
+    search_salprod = request.args.get('search_salprod')
+    print(search_material)
+
+    page=page
+    pages = 5
+
+    if search_material:
+        material_data = Materials.query.filter(Materials.Material_Name.contains(search_material)).paginate(per_page=pages, error_out=False)
+
+    # elif search_salprod:
+    #     salprod = SalProducts.query.filter(SalProducts.Sal_Prod_Name.contains(search_salprod)).all()
+    
+    else:
+        material_data = Materials.query.order_by(Materials.Material_Name.asc()).paginate(page, pages, error_out=False)
+
+
     return render_template("product/material_list.html", material_data=material_data)
 
 
-@blueprint.route('/sal_product')
+@blueprint.route('/sal_product', methods=["GET", "POST"], defaults={"page": 1})
+@blueprint.route('/sal_product/<int:page>', methods=["GET", "POST"])
 @admin_required
-def sal_prod_page():
-    sal_prod_data = SalProducts.query.order_by(SalProducts.Sal_Prod_Name).all()
+def sal_prod_page(page):
+    search_salprod = request.args.get('search_salprod')
+    search_family = request.args.get('search_family')
+    page=page
+    pages = 10
+
+    if search_salprod:
+        sal_prod_data = SalProducts.query.filter(SalProducts.Sal_Prod_Name.contains(search_salprod)).paginate(per_page=pages, error_out=False)
+
+    elif search_family:
+        family = ProdFamily.query.filter(ProdFamily.Family_Name.contains(search_family)).first()
+        sal_prod_data = SalProducts.query.filter(SalProducts.Family_id == family.id).paginate(per_page=pages, error_out=False)
+
+    else:
+        sal_prod_data = SalProducts.query.order_by(SalProducts.Sal_Prod_Name.asc()).paginate(page, pages, error_out=False)
+
+
     return render_template("product/salproduct_list.html", sal_prod_data=sal_prod_data)
 
 

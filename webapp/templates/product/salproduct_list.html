@@ -10,24 +10,97 @@
 
 <br>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-          <th scope="col">Code</th>
-          <th scope="col">Sal Prod Name</th>
-          <th scope="col">Family Name</th>
-          <th scope="col">Sub Class Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for sal_prod in sal_prod_data %}
-        <tr>
-          <td>{{ sal_prod.Sal_Prod_Code }}</td>
-          <td>{{ sal_prod.Sal_Prod_Name }}</td>
-          <td>{{ sal_prod.Family_Table.Family_Code}} ({{ sal_prod.Family_Table.Family_Name }})</td>
-          <td>{{ sal_prod.Family_Table.Sub_Class.Sub_Class }} ({{ sal_prod.Family_Table.Sub_Class.Sub_Class_Name }})</td>
-        </tr>
-        {% endfor %}
-</table>
+<div class="row">
+    <div class="col-4">
+        <form action="" method="GET" autocomplete="off"> 
+            <div class="row">
+                <div class="col-6">
+                    <input type="search" class="form-control" name="search_salprod" placeholder="Enter keyword"/> 
+                 </div>
+            </div>
+            <div class="row">
+                <div class="col-6" align-left>
+                    <input type="submit" value="Search Saleable Prod" class="form-control btn btn-primary " name=""> 
+                </div>
+            </div>
+        </form> 
+     </div>
+    
+    <div class="col-1"></div>
+
+    <div class="col-4">
+        <form action="" method="GET" autocomplete="off"> 
+            <div class="row">
+                <div class="col-6">
+                    <input type="search" class="form-control" name="search_family" placeholder="Enter keyword"/> 
+                 </div>
+            </div>
+            <div class="row">
+                <div class="col-6" align-left>
+                    <input type="submit" value="Search Family" class="form-control btn btn-primary " name=""> 
+                </div>
+            </div>
+        </form> 
+    </div>
+</div>
+
+<div class="row"></div>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-hover" style="width:100%">
+            <thead>
+                <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Sal Prod Name</th>
+                <th scope="col">Family Name</th>
+                <th scope="col">Sub Class Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sal_prod in sal_prod_data.items %}
+                <tr>
+                <td>{{ sal_prod.Sal_Prod_Code }}</td>
+                <td>{{ sal_prod.Sal_Prod_Name }}</td>
+                <td>{{ sal_prod.Family_Table.Family_Code}} ({{ sal_prod.Family_Table.Family_Name }})</td>
+                <td>{{ sal_prod.Family_Table.Sub_Class_table.Sub_Class }} ({{ sal_prod.Family_Table.Sub_Class_table.Sub_Class_Name }})</td>
+                </tr>
+                {% endfor %}
+        </table>
+
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if sal_prod_data.has_prev %}
+                    <li class="page-item"> <a class="page-link" href="{{ url_for('products.sal_prod_page', page=sal_prod_data.prev_num) }}">Previous</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link btn disabled" href="#">Previous</a></li>
+                {% endif %}
+
+                {% for page in sal_prod_data.iter_pages(left_edge=3, right_edge=3) %}
+
+                {% if page %}
+                    {% if page==sal_prod_data.page %}
+                        <li class="page-item active"><a class="page-link" href="{{ url_for('products.sal_prod_page', page=page) }}">{{ page }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ url_for('products.sal_prod_page', page=page) }}">{{ page }}</a></li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li> 
+                {% endif %}
+
+                {% endfor %}
+
+                {% if sal_prod_data.has_next %}
+                    <li class="page-item"> <a class="page-link" href="{{ url_for('products.sal_prod_page', page=sal_prod_data.next_num) }}">Next</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link btn disabled" href="#">Next</a></li>
+                {% endif %}
+
+            </ul>
+        </nav>
+
+    </div>
+</div>
+
 
 {% endblock %}
