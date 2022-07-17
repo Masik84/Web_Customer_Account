@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1>Admin Invoice page</h1>
+<br>
+<a href="{{ url_for('admin.admin_index') }}" class="btn">Back</a>
+
+<div class="row" blank_row></div>
+
+<div class="row">
+    <div class="col-12">
+        <label for="form-file" class="form-label" id="cust_update_lable">Upload File for update</label><br>
+        <form method=post enctype=multipart/form-data action="{{ url_for('orders.update_invoices') }}">
+            <input type=file name=file>
+            <input class="btn" type=submit value=Submit>
+        </form>
+    </div>
+</div>
+
+<div class="row" blank_row></div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Invoice N</th>
+            <th scope="col">Invoice Type</th>
+            <th scope="col">Invoice Date</th>
+            <th scope="col">SoldTo</th>
+            <th scope="col">SoldTo Name</th>
+            <th scope="col">ShipTo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for invoice in invoice_data %}
+        <tr>
+            <td></td>
+
+        </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}

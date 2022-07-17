@@ -34,7 +34,7 @@ def products_page():
 def materials_page(page):
     search_material = request.args.get('search_material')
     search_salprod = request.args.get('search_salprod')
-    print(search_material)
+    search_family = request.args.get('search_family')
 
     page=page
     pages = 5
@@ -43,9 +43,15 @@ def materials_page(page):
         material_data = Materials.query.filter(Materials.Material_Name.contains(search_material)).paginate(per_page=pages, error_out=False)
 
     elif search_salprod:
-        salprod = SalProducts.query.filter(SalProducts.Sal_Prod_Name.contains(search_salprod)).all()
-        for sal in salprod:
-            material_data = Materials.query.filter(Materials.SalProduct_id == sal.id).paginate(per_page=pages, error_out=False)
+        material_data = Materials.query.filter(Materials.SalProduct_id == SalProducts.id
+                                                                        ).filter(SalProducts.Sal_Prod_Name.contains(search_salprod)
+                                                                        ).paginate(per_page=pages, error_out=False)
+    
+    elif search_family:
+        material_data = Materials.query.filter(Materials.SalProduct_id == SalProducts.id
+                                                                        ).filter(SalProducts.Family_id == ProdFamily.id
+                                                                        ).filter(ProdFamily.Family_Name.contains(search_family)
+                                                                        ).paginate(per_page=pages, error_out=False)
     
     else:
         material_data = Materials.query.order_by(Materials.Material_Name.asc()).paginate(page, pages, error_out=False)
